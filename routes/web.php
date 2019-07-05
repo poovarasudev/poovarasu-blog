@@ -11,6 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+//Route::get('/show', function () {
+//    return view('show');
+//});
+
+Route::get('/', 'PostsController@index');
+Route::resource('post','PostsController');
+
+//Route::get('/post/{id}', 'PostsController@show');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('datatable', 'DataTableController@index');
+Route::get('datatable/getdata', 'DataTableController@getPosts')->name('datatable/getdata');
