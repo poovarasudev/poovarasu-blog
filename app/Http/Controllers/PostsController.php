@@ -16,7 +16,7 @@ class PostsController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('index', compact('posts'));
+        return view('home', compact('posts'));
     }
 
     /**
@@ -46,9 +46,8 @@ class PostsController extends Controller
      * @param Post $post
      * @return Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
         return view('show', compact('post'));
 
     }
@@ -61,7 +60,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('edit', compact('post'));
     }
 
     /**
@@ -73,7 +72,10 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $post->title = request('title');
+        $post->description = request('description');
+        $post->save();
+        return redirect('/home');
     }
 
     /**
@@ -84,6 +86,14 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect('/home');
     }
+
+public function delete($id)
+    {
+        $post = Post::find($id);
+        return view('delete', compact('post'));
+    }
+
 }

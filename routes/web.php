@@ -11,21 +11,14 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
-//Route::get('/show', function () {
-//    return view('show');
-//});
-
-Route::get('/', 'PostsController@index');
-Route::resource('post','PostsController');
-
-//Route::get('/post/{id}', 'PostsController@show');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/', 'DataTableController@index')->name('home');
 Route::get('datatable', 'DataTableController@index');
 Route::get('datatable/getdata', 'DataTableController@getPosts')->name('datatable/getdata');
+
+Route::resource('post','PostsController')->middleware('auth');
+Route::get('post/{id}/show-delete','PostsController@delete')->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', 'PostsController@index')->name('dashboard')->middleware('auth');

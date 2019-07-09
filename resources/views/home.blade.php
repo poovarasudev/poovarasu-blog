@@ -14,7 +14,33 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                        <div class="container">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Published by</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($posts as $post)
+                                    <tr>
+                                        <td>{{ $post->title }}</td>
+                                        <td>{{ $post->description }}</td>
+                                        <td>{{ $post->email }}</td>
+                                        <td>
+                                            <a href="/post/{{ $post->id }}">view</a> |
+                                            <a href="/post/{{ $post->id }}/edit">edit</a> |
+                                            <a href="/post/{{ $post->id }}/show-delete">delete</a>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
             </div>
         </div>

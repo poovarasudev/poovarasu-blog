@@ -18,7 +18,7 @@
             </thead>
             <tbody>
             @foreach($posts as $post)
-                <tr class="clickable-row  data-href='url://'">
+                <tr>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->description }}</td>
                     <td>{{ $post->email }}</td>
