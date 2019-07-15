@@ -11,14 +11,10 @@
 |
 */
 
-
-Route::get('/', 'DataTableController@index')->name('home');
-Route::get('datatable', 'DataTableController@index');
-Route::get('datatable/getdata', 'DataTableController@getPosts')->name('datatable/getdata');
-
 Route::resource('post','PostsController')->middleware('auth');
-Route::get('post/{id}/show-delete','PostsController@delete')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'PostsController@index')->name('dashboard')->middleware('auth');
+Route::get('/home', 'PostsController@index')->middleware('auth');
+Route::get('/', 'PostsController@index')->middleware('auth');
+Route::get('datatable/getdata', 'PostsController@getPosts')->name('datatable/getdata');

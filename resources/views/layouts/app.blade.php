@@ -1,89 +1,140 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
-    <title>@yield('title')</title>
+    <!-- Bootstrap Core Css -->
+    <link href="{{ asset('asset/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- Waves Effect Css -->
+    <link href="{{ asset('asset/plugins/node-waves/waves.css') }}" rel="stylesheet"/>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!-- Animation Css -->
+    <link href="{{ asset('asset/plugins/animate-css/animate.css') }}" rel="stylesheet"/>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css\customstylesheet.css') }}">
-    @yield('style')
+    <!-- Sweet Alert Css -->
+    <link href="{{ asset('asset/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet"/>
+
+    <!-- Morris Chart Css-->
+    <link href="{{ asset('asset/plugins/morrisjs/morris.css') }}" rel="stylesheet"/>
+
+    <!-- Dropzone Css -->
+    <link href="{{ asset('asset/plugins/dropzone/dropzone.css')}}" rel="stylesheet">
+
+    <!-- Custom Css -->
+    <link href="{{ asset('asset/css/style.css') }}" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="{{ asset('asset/css/themes/all-themes.css') }}" rel="stylesheet"/>
+
+    <!-- Jquery Core Js -->
+    <script src="{{ asset('asset/plugins/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="{{ asset('asset/plugins/bootstrap/js/bootstrap.js') }}"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="{{ asset('asset/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="{{ asset('asset/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="{{ asset('asset/plugins/node-waves/waves.js') }}"></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script src="{{ asset('asset/plugins/jquery-countto/jquery.countTo.js') }}"></script>
+
+    <!-- Morris Plugin Js -->
+    <script src="{{ asset('asset/plugins/raphael/raphael.min.js') }}"></script>
+    <script src="{{ asset('asset/plugins/morrisjs/morris.js') }}"></script>
+
+    <!-- ChartJs -->
+    <script src="{{ asset('asset/plugins/chartjs/Chart.bundle.js') }}"></script>
+
+    <!-- Jquery Validation Plugin Css -->
+    <script src="{{ asset('asset/plugins/jquery-validation/jquery.validate.js') }}"></script>
+
+    <!-- JQuery Steps Plugin Js -->
+    <script src="{{ asset('asset/plugins/jquery-steps/jquery.steps.js') }}"></script>
+
+    <!-- Sweet Alert Plugin Js -->
+    <script src="{{ asset('asset/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
+    <!-- Bootstrap Notify Plugin Js -->
+    <script src="{{ asset('asset/plugins/bootstrap-notify/bootstrap-notify.js') }}"></script>
+
+    <!-- Dropzone Plugin Js -->
+    <script src="{{ asset('asset/plugins/dropzone/dropzone.js') }}"></script>
+
+    <!-- Flot Charts Plugin Js -->
+    <script src="{{ asset('asset/plugins/flot-charts/jquery.flot.js') }}"></script>
+    <script src="{{ asset('asset/plugins/flot-charts/jquery.flot.resize.js') }}"></script>
+    <script src="{{ asset('asset/plugins/flot-charts/jquery.flot.pie.js') }}"></script>
+    <script src="{{ asset('asset/plugins/flot-charts/jquery.flot.categories.js') }}"></script>
+    <script src="{{ asset('asset/plugins/flot-charts/jquery.flot.time.js') }}"></script>
+
+    <!-- Ckeditor -->
+    <script src="{{ asset('asset/plugins/ckeditor/ckeditor.js') }}"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script src="{{ asset('asset/plugins/jquery-sparkline/jquery.sparkline.js') }}"></script>
+
+    <!--Datatable -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- Custom Js -->
+    <script src="{{ asset('asset/js/admin.js') }}"></script>
+    <script src="{{ asset('asset/js/pages/index.js') }}"></script>
+    <script src="{{ asset('asset/js/pages/forms/form-wizard.js') }}"></script>
+    <script src="{{ asset('asset/js/pages/forms/form-validation.js') }}"></script>
+    <!-- Demo Js -->
+    <script src="{{ asset('asset/js/demo.js') }}"></script>
+
+
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
-                        </li>
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
-    @yield('script')
+<body class="theme-grey">
+<!-- Page Loader -->
+{{--    <div class="page-loader-wrapper">--}}
+{{--        <div class="loader">--}}
+{{--            <div class="preloader">--}}
+{{--                <div class="spinner-layer pl-grey">--}}
+{{--                    <div class="circle-clipper left">--}}
+{{--                        <div class="circle"></div>--}}
+{{--                    </div>--}}
+{{--                    <div class="circle-clipper right">--}}
+{{--                        <div class="circle"></div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <p>Please wait...</p>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+<!-- #END# Page Loader -->
+@include('layouts.header')
+@auth
+    @include('layouts.sidebar')
+@endauth
+<div id="app">
+    <main class="py-4">
+        @yield('content')
+    </main>
+</div>
 </body>
+<footer>
+    @yield('script')
+</footer>
 </html>

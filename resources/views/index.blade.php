@@ -1,32 +1,61 @@
 @extends('layouts.app')
 
-@section('title')
-    Welcome Page
+@section('content')
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6"><h3>POST</h3></div>
+                                <div class="col-lg-6">
+                                    <button type="button" onclick="window.location.href = '/post/create';"
+                                            class="btn btn-default btn-circle-lg waves-effect waves-circle waves-float pull-right">
+                                        <i class="material-icons">add_to_queue</i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <table id="data" class="table table-hover table-bordered table-striped datatable">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Published by</th>
+                                    <th>Posted on</th>
+                                    <th>View</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 
-@section('content')
-
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Published by</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($posts as $post)
-                <tr>
-                    <td>{{ $post->title }}</td>
-                    <td>{{ $post->description }}</td>
-                    <td>{{ $post->email }}</td>
-                    <td><a href="/post/{{ $post->id }}">view</a></td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-
+@section('script')
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        $(function () {
+            $('#data').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('datatable/getdata') }}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'title', name: 'title'},
+                    {data: 'email', name: 'email'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'action', name: 'action'},
+                ]
+            });
+        });
+        function redirect(id) {
+            window.location.href = "/post/"+id;
+        }
+    </script>
 @endsection

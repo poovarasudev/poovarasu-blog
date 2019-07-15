@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBlogPost;
+use App\Http\Requests\UpdateBlogPost;
 use App\Post;
+use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use mysql_xdevapi\Exception;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostsController extends Controller
 {
+    use SoftDeletes;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +24,13 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return view('home', compact('posts'));
+        try {
+            $posts = Post::all();
+//            throw new Exception();
+            return view('index', compact('posts'));
+        } catch (\Throwable $exception) {
+            return view('errors.500')->with(['url' => route('home')]);
+        }
     }
 
     /**
@@ -26,18 +40,34 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreBlogPost $request)
     {
-        //
+        $post = new Post;
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->email = auth()->user()->email;
+        $post->user_id = auth()->user()->id;
+        $post->save();
+        if ($request->hasFile('image_name')) {
+            foreach ($request->image_name as $image_name) {
+                $originalfilename = $image_name->getClientOriginalName();
+                $image_name->storeAs('public/posts_images', $originalfilename);
+                $image = new Image;
+                $image->image_name = $originalfilename;
+                $image->post_id = $post->id;
+                $image->save();
+            }
+        }
+        return redirect('/post/' . $post->id);
     }
 
     /**
@@ -48,8 +78,8 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        return view('show', compact('post'));
-
+        $images = Image::wherePostId($post->id)->pluck('image_name');
+        return view('show', compact('post', 'images'));
     }
 
     /**
@@ -66,16 +96,14 @@ class PostsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @param Post $post
      * @return Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Post $post, UpdateBlogPost $request)
     {
-        $post->title = request('title');
-        $post->description = request('description');
-        $post->save();
-        return redirect('/home');
+        $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
+        return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
     }
 
     /**
@@ -86,14 +114,33 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
-        return redirect('/home');
+        try {
+            Image::wherePostId($post->id)->softDeletes();
+            $post->delete();
+            return response()->json(['action' => 'success', 'message' => 'Post deleted succesfully']);
+        } catch (\Throwable $exception) {
+            return response()->json(['action' => 'error', 'message' => 'Unable to delete post'], 500);
+        }
     }
 
-public function delete($id)
+    public function getPosts()
     {
-        $post = Post::find($id);
-        return view('delete', compact('post'));
+        $posts = Post::select('id', 'title', 'created_at', 'email');
+        return DataTables::of($posts)->addColumn('action', function ($post) {
+            return '<button type="button" id="view" data-id="' . $post->id . '"
+                                                class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="redirect(' . $post->id . ')">
+                                            <i class="material-icons">visibility</i></button>';
+        })
+            ->editColumn('created_at', function (Post $post) {
+                return $post->created_at->format('d/m/y');
+            })->make(true);
     }
+
+    public function editt($edit_id)
+    {
+        $edit = \App\Task::find($edit_id);
+        return Response()->json($edit);
+    }
+
 
 }
