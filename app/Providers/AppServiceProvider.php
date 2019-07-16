@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->isLocal()){
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 
     /**
@@ -23,12 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Illuminate\Support\Facades\DB::listen(function ($query) {
-            info('Query', [
-                "Query" => $query->sql,
-                "Bindings" => $query->bindings,
-                "Time" => $query->time,
-            ]);
-        });
+        //
     }
 }

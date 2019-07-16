@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Register Page
+@endsection
+
 @section('content')
 
     <div class="signup-page">

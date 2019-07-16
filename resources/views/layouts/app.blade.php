@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+    <title>@yield('title')</title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -13,6 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
           type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom-style-sheet.css') }}">
 
     <!-- Bootstrap Core Css -->
     <link href="{{ asset('asset/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
@@ -107,23 +110,6 @@
 
 </head>
 <body class="theme-grey">
-<!-- Page Loader -->
-{{--    <div class="page-loader-wrapper">--}}
-{{--        <div class="loader">--}}
-{{--            <div class="preloader">--}}
-{{--                <div class="spinner-layer pl-grey">--}}
-{{--                    <div class="circle-clipper left">--}}
-{{--                        <div class="circle"></div>--}}
-{{--                    </div>--}}
-{{--                    <div class="circle-clipper right">--}}
-{{--                        <div class="circle"></div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <p>Please wait...</p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-<!-- #END# Page Loader -->
 @include('layouts.header')
 @auth
     @include('layouts.sidebar')

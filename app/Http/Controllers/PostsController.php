@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostsController extends Controller
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 
     /**
      * Display a listing of the resource.
@@ -26,7 +26,6 @@ class PostsController extends Controller
     {
         try {
             $posts = Post::all();
-//            throw new Exception();
             return view('index', compact('posts'));
         } catch (\Throwable $exception) {
             return view('errors.500')->with(['url' => route('home')]);
@@ -51,20 +50,21 @@ class PostsController extends Controller
      */
     public function store(StoreBlogPost $request)
     {
-        $post = new Post;
-        $post->title = $request->title;
-        $post->description = $request->description;
-        $post->email = auth()->user()->email;
-        $post->user_id = auth()->user()->id;
-        $post->save();
+        $post = Post::create([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'email' => auth()->user()->email,
+            'user_id' => auth()->user()->id,
+        ]);
+
         if ($request->hasFile('image_name')) {
             foreach ($request->image_name as $image_name) {
                 $originalfilename = $image_name->getClientOriginalName();
                 $image_name->storeAs('public/posts_images', $originalfilename);
-                $image = new Image;
-                $image->image_name = $originalfilename;
-                $image->post_id = $post->id;
-                $image->save();
+                Image::create([
+                    'post_id' => $post->id,
+                    'image_name' => $originalfilename,
+                ]);
             }
         }
         return redirect('/post/' . $post->id);
@@ -102,8 +102,12 @@ class PostsController extends Controller
      */
     public function update(Post $post, UpdateBlogPost $request)
     {
-        $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
-        return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
+        try {
+            $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
+            return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
+        } catch (\Throwable $exception) {
+            return view('errors.500')->with(['url' => route('home')]);
+        }
     }
 
     /**
@@ -115,7 +119,8 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         try {
-            Image::wherePostId($post->id)->softDeletes();
+//            Image::wherePostId($post->id)->softDeletes();
+            Image::wherePostId($post->id)->delete();
             $post->delete();
             return response()->json(['action' => 'success', 'message' => 'Post deleted succesfully']);
         } catch (\Throwable $exception) {
@@ -135,12 +140,5 @@ class PostsController extends Controller
                 return $post->created_at->format('d/m/y');
             })->make(true);
     }
-
-    public function editt($edit_id)
-    {
-        $edit = \App\Task::find($edit_id);
-        return Response()->json($edit);
-    }
-
 
 }

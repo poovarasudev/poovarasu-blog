@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Home Page
+@endsection
+
 @section('content')
     <section class="content">
         <div class="container-fluid">
@@ -10,9 +14,9 @@
                             <div class="row">
                                 <div class="col-lg-6"><h3>POST</h3></div>
                                 <div class="col-lg-6">
-                                    <button type="button" onclick="window.location.href = '/post/create';"
+                                    <button type="button"
                                             class="btn btn-default btn-circle-lg waves-effect waves-circle waves-float pull-right">
-                                        <i class="material-icons">add_to_queue</i></button>
+                                        <a href="/post/create"><i class="material-icons">add_to_queue</i></a></button>
                                 </div>
                             </div>
                             <br>
