@@ -10,3 +10,15 @@
     width: 500px !important;
     margin: auto;
 }
+#comment, #modal-comment{
+    border: solid 1px;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+#comment-link{
+    color: #777777;
+    text-decoration: underline;
+}
+textarea{
+    resize: none;
+}

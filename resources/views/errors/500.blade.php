@@ -27,7 +27,7 @@
     <div class="error-code">500</div>
     <div class="error-message">Internal Server Error</div>
     <div class="button-place">
-        <a href="{{ $url }}" class="btn btn-default btn-lg waves-effect">GO BACK</a>
+        <a href="/" class="btn btn-default btn-lg waves-effect">GO To Home</a>
     </div>
 </div>
 

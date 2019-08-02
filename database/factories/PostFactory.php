@@ -7,8 +7,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     return [
+        'user_id' => 1,
         'title' => $faker->name,
         'description' => Str::random(50),
-        'email' => $faker->unique()->safeEmail,
+        'email' => "abc@gmail.com",
     ];
 });

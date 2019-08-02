@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
+use App\Events\PostDeleted;
+use App\Events\PostEvent;
+use App\Events\PostUpdated;
 use App\Http\Requests\StoreBlogPost;
 use App\Http\Requests\UpdateBlogPost;
 use App\Post;
 use App\Image;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use mysql_xdevapi\Exception;
 use Yajra\DataTables\Facades\DataTables;
@@ -15,7 +23,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostsController extends Controller
 {
-//    use SoftDeletes;
+    /**
+     * Instantiate a new PostController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:create post', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit post',   ['only' => ['edit', 'update']]);
+        $this->middleware('permission:view post',   ['only' => ['show']]);
+        $this->middleware('permission:delete post',   ['only' => ['destroy']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -50,13 +70,24 @@ class PostsController extends Controller
      */
     public function store(StoreBlogPost $request)
     {
+        $input_tag = explode(",", $request->tagInput);
+        $old_tags = DB::table('tags')->pluck('tag_name');
+        $new_tags = array_diff($input_tag, $old_tags->toArray());
+        if (!empty($new_tags)) {
+            foreach ($new_tags as $new_tag) {
+                if ($new_tag != ""){
+                Tag::create(['tag_name' => $new_tag]);
+                }
+            }
+        }
+        $input_tag_id = DB::table('tags')->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
         $post = Post::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'email' => auth()->user()->email,
             'user_id' => auth()->user()->id,
         ]);
-
+        $post->tags()->sync($input_tag_id);
         if ($request->hasFile('image_name')) {
             foreach ($request->image_name as $image_name) {
                 $originalfilename = $image_name->getClientOriginalName();
@@ -67,6 +98,10 @@ class PostsController extends Controller
                 ]);
             }
         }
+        if (Cache::has('tags')){
+            Cache::forget('tags');
+        }
+        event(new PostCreated($post, auth()->user()->name));
         return redirect('/post/' . $post->id);
     }
 
@@ -78,8 +113,7 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        $images = Image::wherePostId($post->id)->pluck('image_name');
-        return view('show', compact('post', 'images'));
+        return view('show', compact('post'));
     }
 
     /**
@@ -104,6 +138,22 @@ class PostsController extends Controller
     {
         try {
             $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
+            $input_tag = explode(",", $request->tagInput);
+            $old_tags = DB::table('tags')->pluck('tag_name');
+            $new_tags = array_diff($input_tag, $old_tags->toArray());
+            if (!empty($new_tags)) {
+                foreach ($new_tags as $new_tag) {
+                    if ($new_tag != ''){
+                    Tag::create(['tag_name' => $new_tag]);
+                    }
+                }
+            }
+            $input_tag_id = DB::table('tags')->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
+            $post->tags()->sync($input_tag_id);
+            if (Cache::has('tags')){
+                Cache::forget('tags');
+            }
+            event(new PostUpdated($post, auth()->user()->name));
             return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
         } catch (\Throwable $exception) {
             return view('errors.500')->with(['url' => route('home')]);
@@ -119,9 +169,12 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         try {
-//            Image::wherePostId($post->id)->softDeletes();
             Image::wherePostId($post->id)->delete();
+            event(new PostDeleted($post, auth()->user()->name));
             $post->delete();
+            if (Cache::has('tags')){
+                Cache::forget('tags');
+            }
             return response()->json(['action' => 'success', 'message' => 'Post deleted succesfully']);
         } catch (\Throwable $exception) {
             return response()->json(['action' => 'error', 'message' => 'Unable to delete post'], 500);
@@ -132,9 +185,13 @@ class PostsController extends Controller
     {
         $posts = Post::select('id', 'title', 'created_at', 'email');
         return DataTables::of($posts)->addColumn('action', function ($post) {
-            return '<button type="button" id="view" data-id="' . $post->id . '"
-                                                class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="redirect(' . $post->id . ')">
-                                            <i class="material-icons">visibility</i></button>';
+            if (auth()->user()->hasPermissionTo('view post')){
+                return '<button type="button" id="view" data-id="' . $post->id . '"
+                                                    class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="redirect(' . $post->id . ')">
+                                                <i class="material-icons">visibility</i></button>';
+            } else{
+                return '<i class="material-icons">remove</i>';
+            }
         })
             ->editColumn('created_at', function (Post $post) {
                 return $post->created_at->format('d/m/y');

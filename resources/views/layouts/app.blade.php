@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>@yield('title')</title>
     <!-- Favicon-->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+{{--    <link rel="icon" href="favicon.ico" type="image/x-icon">--}}
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
@@ -19,6 +19,9 @@
 
     <!-- Bootstrap Core Css -->
     <link href="{{ asset('asset/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap Tagsinput Css -->
+    <link href="{{ asset('asset/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
 
     <!-- Waves Effect Css -->
     <link href="{{ asset('asset/plugins/node-waves/waves.css') }}" rel="stylesheet"/>
@@ -78,6 +81,9 @@
     <!-- Bootstrap Notify Plugin Js -->
     <script src="{{ asset('asset/plugins/bootstrap-notify/bootstrap-notify.js') }}"></script>
 
+    <!-- Bootstrap Tags Input Plugin Js -->
+    <script src="{{ asset('asset/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+
     <!-- Dropzone Plugin Js -->
     <script src="{{ asset('asset/plugins/dropzone/dropzone.js') }}"></script>
 
@@ -104,8 +110,13 @@
     <script src="{{ asset('asset/js/pages/index.js') }}"></script>
     <script src="{{ asset('asset/js/pages/forms/form-wizard.js') }}"></script>
     <script src="{{ asset('asset/js/pages/forms/form-validation.js') }}"></script>
-    <!-- Demo Js -->
+
+{{--    <!-- Demo Js -->--}}
     <script src="{{ asset('asset/js/demo.js') }}"></script>
+
+    <link href="{{ asset('asset/select2/select2.min.css') }}" rel="stylesheet" />
+    <script src="{{ asset('asset/select2/select2.min.js') }}"></script>
+
 
 
 </head>

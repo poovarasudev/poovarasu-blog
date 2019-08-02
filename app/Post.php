@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -19,4 +21,25 @@ class Post extends Model
      * @var array
      */
     protected $dates = ['created_at'];
+
+    /**
+     * Get the images for the post.
+     */
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+
+    /**
+     * Get the comments for the post.
+     */
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Get the comments for the post.
+     */
+    public function tags(){
+        return $this->belongsToMany(Tag::class,'post_tag')->withTimestamps();
+    }
 }

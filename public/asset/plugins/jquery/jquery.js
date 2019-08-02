@@ -8968,7 +8968,7 @@ jQuery.fn.extend( {
 
 
 
-// Return jQuery for attributes-only inclusion
+// Return jQuery for attributes-only in[clusion
 
 
 jQuery.each( ( "blur focus focusin focusout load resize scroll unload click dblclick " +

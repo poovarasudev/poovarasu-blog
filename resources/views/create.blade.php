@@ -37,6 +37,14 @@
                                 <div class="form-group">
                                     <textarea name="description" data-minlength="15" id="ckeditor">{{ old('description') }}</textarea>
                                 </div>
+                                @can('create tag')
+                                    <div class="form-group demo-tagsinput-area">
+                                        <label for="tag">Tags</label>
+                                        <div class="form-line">
+                                            <input type="text" name="tagInput" class="form-control tags-input" data-role="tagsinput" id="tag" multiple size="100">
+                                        </div>
+                                    </div>
+                                @endcan
                                 <label for="image_name">Upload images(optional)</label>
                                 <div class="form-group image-upload">
                                     <input name="image_name[]" type="file" multiple class="form-control"/>
@@ -53,6 +61,7 @@
 
 @section('script')
     <script type="text/javascript">
+
         //CKEditor
         CKEDITOR.replace('ckeditor');
         CKEDITOR.config.height = 200;

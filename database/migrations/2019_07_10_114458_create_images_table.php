@@ -19,6 +19,7 @@ class CreateImagesTable extends Migration
             $table->string('image_name')->nullable();
             $table->foreign('post_id')->references('id')->on('posts');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

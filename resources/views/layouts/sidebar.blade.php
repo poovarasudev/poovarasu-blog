@@ -18,7 +18,6 @@
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="material-icons">input</i>Sign Out </a>
                         </li>
-
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
@@ -31,15 +30,42 @@
         <div class="menu">
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="active">
-                    <a href="/home">
+                @role('admin')
+                <li>
+                    <a href="/dashboard">
+                        <i class="material-icons">home</i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                @endrole
+                <li>
+                    <a href="/post">
                         <i class="material-icons">local_post_office</i>
                         <span>Posts</span>
                     </a>
                 </li>
+                @role('admin')
+                <li>
+                    <a href="#">
+                        <i class="material-icons">fingerprint</i>
+                        <span>Roles & Permissions</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/role">
+                        <i class="material-icons">keyboard_arrow_right</i>
+                        <span>Create Roles</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/user">
+                        <i class="material-icons">keyboard_arrow_right</i>
+                        <span>Create Users</span>
+                    </a>
+                </li>
+                @endrole
             </ul>
         </div>
-
 
     </aside>
     <!-- #END# Left Sidebar -->
