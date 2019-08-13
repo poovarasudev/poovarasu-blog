@@ -1,0 +1,12 @@
+.titles{
+    font-size: 25px;
+    text-align: left;
+}
+.contents{
+    font-size: 20px;
+}
+.item img {
+    height: 500px !important;
+    width: 500px !important;
+    margin: auto;
+}

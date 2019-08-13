@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('post','PostsController')->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', 'PostsController@index')->middleware('auth');
+Route::get('/', 'PostsController@index')->middleware('auth');
+Route::get('datatable/getdata', 'PostsController@getPosts')->name('datatable/getdata');
