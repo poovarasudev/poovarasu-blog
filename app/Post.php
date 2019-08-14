@@ -21,6 +21,7 @@ class Post extends Model
      * @var array
      */
     protected $dates = ['created_at'];
+    private $id;
 
     /**
      * Get the images for the post.

@@ -11,10 +11,6 @@ function getMorris(type, element) {
         Morris.Line({
             element: element,
             data: [{
-                'period': '2011 Q3',
-                'licensed': 3407,
-                'sorned': 660
-            }, {
                     'period': '2011 Q2',
                     'licensed': 3351,
                     'sorned': 629

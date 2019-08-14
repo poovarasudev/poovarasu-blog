@@ -11,5 +11,6 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => $faker->name,
         'description' => Str::random(50),
         'email' => "abc@gmail.com",
+        'created_at' => \Carbon\Carbon::parse('2019-06-16')
     ];
 });

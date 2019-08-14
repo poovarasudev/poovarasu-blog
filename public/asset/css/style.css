@@ -7776,10 +7776,10 @@ fieldset[disabled] .form-control {
 
 /* Forgot Password Page ======================== */
 .fp-page {
-  background-color: #00BCD4;
+  background-color: grey;
   padding-left: 0;
   max-width: 360px;
-  margin: 5% auto;
+  margin: 10% auto;
   overflow-x: hidden; }
   .fp-page .fp-box .msg {
     color: #555;
@@ -7790,7 +7790,9 @@ fieldset[disabled] .form-control {
     text-decoration: none;
     color: #00BCD4; }
   .fp-page .fp-box .logo {
-    margin-bottom: 20px; }
+      text-align: center;
+    margin-bottom: 20px;
+    color: white;}
     .fp-page .fp-box .logo a {
       font-size: 36px;
       display: block;

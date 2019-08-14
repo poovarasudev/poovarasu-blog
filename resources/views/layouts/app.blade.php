@@ -121,6 +121,7 @@
 
 </head>
 <body class="theme-grey">
+
 @include('layouts.header')
 @auth
     @include('layouts.sidebar')

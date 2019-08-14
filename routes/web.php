@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('post','PostsController');
     Route::get('datatable/getdata', 'PostsController@getPosts')->name('datatable/getdata');
@@ -29,5 +30,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('role','RolesController');
     Route::get('datatable/getrole', 'RolesController@getRoles')->name('datatable/getrole');
     Route::get('datatable/getuser', 'UsersController@getUsers')->name('datatable/getuser');
+
     Route::get('/dashboard', 'HomeController@dashboard');
 });
+
+
+Route::get('get-dashboard-datas', 'HomeController@getDashboardDatas');

@@ -2,6 +2,11 @@
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Stackify\Log\Transport\ExecTransport;
+use Stackify\Log\Monolog\Handler as StackifyHandler;
+
+$retrace_api_key = env('RETRACE_API_KEY', 'api_key');
+$transport_for_retrace = new ExecTransport($retrace_api_key);
 
 return [
 
@@ -37,7 +42,19 @@ return [
         'stack' => [
             'driver' => 'stack',
             'channels' => ['daily'],
+//            'channels' => ['daily', 'retrace'],
             'ignore_exceptions' => false,
+        ],
+
+        'retrace' => [
+            'driver' => 'monolog',
+            'level' => 'debug',
+            'handler' => StackifyHandler::class,
+            'handler_with' => [
+                'appName' => env('RETRACE_APP_NAME', 'app_name'),
+                'environmentName' => env('RETRACE_ENV_NAME', 'env_name'),
+                'transport' => $transport_for_retrace, // set in Step 3.3
+            ]
         ],
 
         'single' => [
