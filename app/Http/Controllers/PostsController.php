@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PostCreated;
-use App\Events\PostDeleted;
+use App\Events\PostCreate;
+use App\Events\PostDelete;
 use App\Events\PostEvent;
-use App\Events\PostUpdated;
+use App\Events\PostUpdate;
 use App\Http\Requests\StoreBlogPost;
 use App\Http\Requests\UpdateBlogPost;
 use App\Post;
@@ -101,7 +101,7 @@ class PostsController extends Controller
         if (Cache::has('tags')){
             Cache::forget('tags');
         }
-        event(new PostCreated($post, auth()->user()->name));
+        event(new PostCreate($post, auth()->user()->name));
         return redirect('/post/' . $post->id);
     }
 
@@ -153,7 +153,7 @@ class PostsController extends Controller
             if (Cache::has('tags')){
                 Cache::forget('tags');
             }
-            event(new PostUpdated($post, auth()->user()->name));
+            event(new PostUpdate($post, auth()->user()->name));
             return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
         } catch (\Throwable $exception) {
             return view('errors.500')->with(['url' => route('home')]);
@@ -170,7 +170,7 @@ class PostsController extends Controller
     {
         try {
             Image::wherePostId($post->id)->delete();
-            event(new PostDeleted($post, auth()->user()->name));
+            event(new PostDelete($post, auth()->user()->name));
             $post->delete();
             if (Cache::has('tags')){
                 Cache::forget('tags');

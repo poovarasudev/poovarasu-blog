@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use SoftDeletes;
+
     /**
      * The attributes that aren't mass assignable.
      *
@@ -18,7 +19,7 @@ class Comment extends Model
     /**
      * Get the post for the comment.
      */
-    public function posts()
+    public function post()
     {
         return $this->belongsTo(Post::class);
     }

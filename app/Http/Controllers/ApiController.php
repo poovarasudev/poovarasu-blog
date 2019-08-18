@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PostCreated;
-use App\Events\PostDeleted;
-use App\Events\PostUpdated;
+use App\Events\PostCreate;
+use App\Events\PostDelete;
+use App\Events\PostUpdate;
 use App\Http\Requests\Api\StoreBlogPost;
 use App\Http\Requests\Api\UpdateBlogPost;
 use App\Http\Resources\ApiPostShowResponse;
@@ -74,7 +74,7 @@ class ApiController extends Controller
         if (Cache::has('tags')){
             Cache::forget('tags');
         }
-        event(new PostCreated($post, auth()->user()->name));
+        event(new PostCreate($post, auth()->user()->name));
         $current_post = Post::with("tags", "images")->find($post->id);
         return new ApiPostShowResponse($current_post);
     }
@@ -134,7 +134,7 @@ class ApiController extends Controller
         if (Cache::has('tags')){
             Cache::forget('tags');
         }
-        event(new PostUpdated($post, auth()->user()->name));
+        event(new PostUpdate($post, auth()->user()->name));
 
             $current_post = Post::with("tags", "images")->find($post->id);
             return new ApiPostShowResponse($current_post);
@@ -163,7 +163,7 @@ class ApiController extends Controller
                 throw new Exception();
             }
             Image::wherePostId($post->id)->delete();
-        event(new PostDeleted($post, auth()->user()->name));
+        event(new PostDelete($post, auth()->user()->name));
             $post->delete();
         if (Cache::has('tags')){
             Cache::forget('tags');

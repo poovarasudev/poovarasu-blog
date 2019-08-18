@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Events\PostCreated;
-use App\Events\PostDeleted;
+use App\Events\PostCreate;
+use App\Events\PostDelete;
 use App\Events\PostEvent;
-use App\Events\PostUpdated;
+use App\Events\PostUpdate;
 use App\Listeners\SendPostCreatedMarkdownMail;
 use App\Listeners\SendPostCreatedViewMail;
 use App\Listeners\SendPostDeletedMarkdownMail;
@@ -29,15 +29,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        PostCreated::class => [
+        PostCreate::class => [
             SendPostCreatedMarkdownMail::class,
             SendPostCreatedViewMail::class,
         ],
-        PostUpdated::class => [
+        PostUpdate::class => [
             SendPostUpdatedMarkdownMail::class,
             SendPostUpdatedViewMail::class,
         ],
-        PostDeleted::class => [
+        PostDelete::class => [
             SendPostDeletedMarkdownMail::class,
             SendPostDeletedViewMail::class,
         ],

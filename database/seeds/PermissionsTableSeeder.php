@@ -13,6 +13,10 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
+            ['id' => 1, 'name' => 'create post', 'guard_name' => 'web'],
+            ['id' => 2, 'name' => 'edit post', 'guard_name' => 'web'],
+            ['id' => 3, 'name' => 'delete post', 'guard_name' => 'web'],
+            ['id' => 4, 'name' => 'view post', 'guard_name' => 'web'],
             ['id' => 5, 'name' => 'create comment', 'guard_name' => 'web'],
             ['id' => 6, 'name' => 'edit comment', 'guard_name' => 'web'],
             ['id' => 7, 'name' => 'delete comment', 'guard_name' => 'web'],

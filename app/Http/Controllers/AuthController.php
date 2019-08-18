@@ -33,7 +33,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Please enter a valid credentials'], 401);
         }
 
         return (new ApiLoginResponse(auth()->user()))->response()->header('access_token', "Bearer ".$token);

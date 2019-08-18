@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\PostDeleted;
+use App\Events\PostDelete;
 use App\Mail\PostOperationsWithMarkdown;
 use App\Mail\PostOperationsWithoutMarkdown;
 use Illuminate\Queue\InteractsWithQueue;
@@ -24,10 +24,10 @@ class SendPostDeletedViewMail implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  PostDeleted  $event
+     * @param  PostDelete  $event
      * @return void
      */
-    public function handle(PostDeleted $event)
+    public function handle(PostDelete $event)
     {
         Mail::to($event->post->email)->send(
             new PostOperationsWithoutMarkdown($event->post, $event->auth, $event->button, $event->operation, $event->url));

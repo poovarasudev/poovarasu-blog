@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,11 +10,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PostCreated
+class PostUpdate
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $post, $auth, $button = "View Post",  $operation = "created", $url;
+    public $post, $auth, $button = "View Post",  $operation = "updated", $url;
 
     /**
      * Create a new event instance.
@@ -26,7 +25,7 @@ class PostCreated
     {
         $this->post = $post;
         $this->auth = $auth;
-        $this->url = "http://blog.test/post/".$post->id;
+        $this->url = env('APP_URL') . "/post/" . $post->id;
     }
 
     /**

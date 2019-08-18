@@ -6,11 +6,13 @@ use App\Post;
 use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
+
     return [
-        'user_id' => 1,
+        'user_id' => 3,
         'title' => $faker->name,
-        'description' => Str::random(50),
-        'email' => "abc@gmail.com",
-        'created_at' => \Carbon\Carbon::parse('2019-06-16')
+        'description' => $faker->text(250),
+        'email' => "abc3@gmail.com",
+        'created_at' => $faker->dateTimeBetween($startDate = '- 0 years', $endDate = 'now'),
+        'updated_at' => $faker->dateTimeBetween($startDate = '-0 years', $endDate = 'now'),
     ];
 });

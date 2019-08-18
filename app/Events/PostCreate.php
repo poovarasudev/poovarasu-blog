@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,11 +11,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PostDeleted
+class PostCreate
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $post, $auth, $url, $button = "Laravel",  $operation = "deleted";
+    public $post, $auth, $button = "View Post",  $operation = "created", $url;
 
     /**
      * Create a new event instance.
@@ -25,7 +26,7 @@ class PostDeleted
     {
         $this->post = $post;
         $this->auth = $auth;
-        $this->url = "http://blog.test/post";
+        $this->url = env('APP_URL') . "/post/" . $post->id;
     }
 
     /**

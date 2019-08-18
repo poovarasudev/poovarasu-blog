@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(PostTag::class, function (Faker $faker) {
     return [
-        'post_id' => $faker->numberBetween(81, 90),
-        'tag_id' => $faker->numberBetween(2, 10),
+        'post_id' => $faker->unique()->numberBetween(1, 105),
+        'tag_id' => $faker->numberBetween(4, 10),
     ];
 });

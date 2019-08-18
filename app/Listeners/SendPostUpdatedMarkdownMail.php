@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\PostUpdated;
+use App\Events\PostUpdate;
 use App\Mail\PostOperationsWithMarkdown;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,10 +23,10 @@ class SendPostUpdatedMarkdownMail implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  PostUpdated  $event
+     * @param  PostUpdate  $event
      * @return void
      */
-    public function handle(PostUpdated $event)
+    public function handle(PostUpdate $event)
     {
         Mail::to($event->post->email)->send(
             new PostOperationsWithMarkdown($event->post, $event->auth, $event->button, $event->operation, $event->url));

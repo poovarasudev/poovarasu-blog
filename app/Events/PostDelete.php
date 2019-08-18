@@ -10,11 +10,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PostUpdated
+class PostDelete
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $post, $auth, $button = "View Post",  $operation = "updated", $url;
+    public $post, $auth, $url, $button = "Laravel",  $operation = "deleted";
 
     /**
      * Create a new event instance.
@@ -25,7 +25,7 @@ class PostUpdated
     {
         $this->post = $post;
         $this->auth = $auth;
-        $this->url = "http://blog.test/post/".$post->id;
+        $this->url = env('APP_URL') . "/post";
     }
 
     /**

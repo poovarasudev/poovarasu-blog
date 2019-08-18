@@ -101,4 +101,18 @@ class ApiAuthLoginTest extends TestCase
 
         $response->assertStatus(422)->assertJson($error);
     }
+
+    public function test_login_with_invalid_data()
+    {
+        $response = $this->post('/api/v1/auth/login', [
+            'email' => "abcdfghj@gmail.com",
+            'password' => "1234fg678",
+        ]);
+
+        $error = [
+            "error" => "Please enter a valid credentials"
+        ];
+
+        $response->assertStatus(401)->assertJson($error);
+    }
 }
