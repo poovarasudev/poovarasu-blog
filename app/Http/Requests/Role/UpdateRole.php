@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBlogPost extends FormRequest
+class UpdateRole extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class UpdateBlogPost extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|alpha_num|min:5',
-            'description' => 'required|min:15',
-//            'image_name.*' => 'mimes:jpeg,jpg,png',
+            'roleName' => 'required|alpha_num|min:3',
+            'roleDescription' => 'required|min:5',
         ];
     }
 }

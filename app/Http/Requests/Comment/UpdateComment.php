@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBlogPost extends FormRequest
+class UpdateComment extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class StoreBlogPost extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|alpha_num|min:5',
-            'description' => 'required|min:15',
-            'image_name.*' => 'mimes:jpeg,jpg,png',
+            'comment' => 'required|min:5|max:100',
         ];
     }
 }

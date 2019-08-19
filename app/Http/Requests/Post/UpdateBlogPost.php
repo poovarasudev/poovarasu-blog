@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Post;
 
+use Illuminate\Foundation\Http\FormRequest;
 
-use App\Exceptions\ApiRequest;
-
-class UpdateBlogPost extends ApiRequest
+class UpdateBlogPost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,9 @@ class UpdateBlogPost extends ApiRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:5|max:10',
+            'title' => 'required|alpha_num|min:5',
             'description' => 'required|min:15',
-            'image_name.*' => 'mimes:jpeg,jpg,png',
-            'tagInput' => 'min:2',
+//            'image_name.*' => 'mimes:jpeg,jpg,png',
         ];
     }
 }

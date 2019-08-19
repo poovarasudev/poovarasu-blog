@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\v1;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Exceptions\ApiExceptionHandler;
 
-class UpdateRole extends FormRequest
+class StoreBlogPost extends ApiExceptionHandler
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class UpdateRole extends FormRequest
     public function rules()
     {
         return [
-            'roleName' => 'required|alpha_num|min:3',
-            'roleDescription' => 'required|min:5',
+            'title' => 'required|min:5|max:10',
+            'description' => 'required|min:15',
+            'image_name.*' => 'mimes:jpeg,jpg,png',
+            'tagInput' => 'min:2',
         ];
     }
 }

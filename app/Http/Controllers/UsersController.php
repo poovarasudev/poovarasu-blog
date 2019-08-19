@@ -18,8 +18,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-//        $users = User::all()->hasAnyRole(Role::all());
-//        dd($users);
         $users = User::all();
         $roles = Role::all();
         return view('roles.create_user_role',compact('users','roles'));

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRole;
-use App\Http\Requests\UpdateRole;
+use App\Http\Requests\Role\StoreRole;
+use App\Http\Requests\Role\UpdateRole;
 use Illuminate\Http\Request;
 use App\Role;
+use mysql_xdevapi\Exception;
 use Yajra\DataTables\Facades\DataTables;
 
 class RolesController extends Controller
@@ -105,7 +106,11 @@ class RolesController extends Controller
     public function destroy(Role $role)
     {
         try {
-            $role->delete();
+            if ($role->name != 'admin'){
+                $role->delete();
+            } else {
+                throw new Exception();
+            }
             return response()->json(['action' => 'success', 'message' => 'Role deleted succesfully']);
         } catch (\Throwable $exception) {
             return response()->json(['action' => 'error', 'message' => 'Unable to delete role'], 500);

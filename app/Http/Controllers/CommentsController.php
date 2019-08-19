@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use App\Http\Requests\StoreComment;
-use App\Http\Requests\UpdateComment;
+use App\Http\Requests\Comment\StoreComment;
+use App\Http\Requests\Comment\UpdateComment;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -59,9 +59,7 @@ class CommentsController extends Controller
             ]);
             $post->refresh();
             return view('comments.show', compact('post'));
-//            return response()->json(['action' => 'success', 'message' => 'Comment created succesfully']);
         } catch (\Throwable $exception) {
-           info($exception);
             return response()->json(['action' => 'error', 'message' => 'Unable to create comment'], 500);
         }
     }
@@ -85,7 +83,7 @@ class CommentsController extends Controller
      */
     public function edit(Comment $comment)
     {
-
+        //
     }
 
     /**

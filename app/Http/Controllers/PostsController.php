@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\PostCreate;
 use App\Events\PostDelete;
-use App\Events\PostEvent;
 use App\Events\PostUpdate;
-use App\Http\Requests\StoreBlogPost;
-use App\Http\Requests\UpdateBlogPost;
+use App\Http\Requests\Post\StoreBlogPost;
+use App\Http\Requests\Post\UpdateBlogPost;
 use App\Post;
 use App\Image;
 use App\Tag;
@@ -19,7 +18,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use mysql_xdevapi\Exception;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostsController extends Controller
 {

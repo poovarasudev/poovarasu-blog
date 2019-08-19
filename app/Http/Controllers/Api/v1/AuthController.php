@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Requests\Api\ApiLoginValidation;
+use App\Http\Requests\Api\v1\ApiLoginValidation;
 use App\Http\Resources\ApiLoginResponse;
+use App\Http\Controllers\Controller;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
+     * @param ApiLoginValidation $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(ApiLoginValidation $request)
@@ -46,7 +48,6 @@ class AuthController extends Controller
      */
     public function me()
     {
-//        return $token = JWTAuth::getToken();
         return response()->json(auth()->user());
     }
 
@@ -89,15 +90,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getPosts()
-    {
-        $users = User::all();
-        $posts = Post::all();
-        $result = $users->map(function ($item) use ($posts) {
-            $post = array_values($posts->where('user_id', '=', $item->id)->toArray());
-            return collect($item)->merge(['posts' => $post]);
-        })->toArray();
-
-        return response()->json($result);
-    }
 }

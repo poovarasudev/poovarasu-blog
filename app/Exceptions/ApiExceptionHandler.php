@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Route;
 
-class ApiRequest extends FormRequest
+class ApiExceptionHandler extends FormRequest
 {
 
     /**

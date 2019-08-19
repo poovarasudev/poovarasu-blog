@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\v1;
 
-use App\Exceptions\ApiRequest;
 
-class ApiLoginValidation extends ApiRequest
+use App\Exceptions\ApiExceptionHandler;
+
+class UpdateBlogPost extends ApiExceptionHandler
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,10 @@ class ApiLoginValidation extends ApiRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'title' => 'required|min:5|max:10',
+            'description' => 'required|min:15',
+            'image_name.*' => 'mimes:jpeg,jpg,png',
+            'tagInput' => 'min:2',
         ];
     }
 }

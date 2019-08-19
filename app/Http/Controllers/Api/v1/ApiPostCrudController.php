@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Events\PostCreate;
 use App\Events\PostDelete;
 use App\Events\PostUpdate;
-use App\Http\Requests\Api\StoreBlogPost;
-use App\Http\Requests\Api\UpdateBlogPost;
+use App\Http\Requests\Api\v1\StoreBlogPost;
+use App\Http\Requests\Api\v1\UpdateBlogPost;
 use App\Http\Resources\ApiPostShowResponse;
+use App\Http\Controllers\Controller;
 use App\Image;
 use App\Tag;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
 
-class ApiController extends Controller
+class ApiPostCrudController extends Controller
 {
     public function __construct()
     {

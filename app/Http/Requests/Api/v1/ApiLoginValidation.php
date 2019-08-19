@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\v1;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Exceptions\ApiExceptionHandler;
 
-class UpdateComment extends FormRequest
+class ApiLoginValidation extends ApiExceptionHandler
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class UpdateComment extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'required|min:5|max:100',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
         ];
     }
 }
