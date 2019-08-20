@@ -1,5 +1,5 @@
 <h2>Comments</h2><br>
-@can('create comment')
+@can('create-comment')
     <div class="row">
         <div class="col-lg-1 align-right">
             <img src="{{ asset('/asset/images/user.png') }}" width="60" height="60" alt="User">

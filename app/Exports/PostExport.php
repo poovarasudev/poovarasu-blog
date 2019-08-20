@@ -15,7 +15,7 @@ class PostExport implements FromView, ShouldAutoSize
     public function view(): View
     {
         $from = Carbon::now()->subDays(10);
-        $to = Carbon::now();
+        $to = now();
         $data = Post::get()->whereBetween('created_at', array($from, $to));
         return view('layouts.pdf_excel', compact('data', 'from'));
     }

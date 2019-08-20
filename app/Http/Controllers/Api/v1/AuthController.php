@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Requests\Api\v1\ApiLoginValidation;
+use App\Http\Requests\Api\v1\LoginRequest;
 use App\Http\Resources\ApiLoginResponse;
 use App\Http\Controllers\Controller;
-use App\Post;
-use App\User;
-use Illuminate\Http\Request;
-use mysql_xdevapi\Collection;
-use test\Mockery\Fixtures\MethodWithHHVMReturnType;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -21,16 +15,16 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('JWTAuthentication', ['except' => ['login']]);
+        //
     }
 
     /**
      * Get a JWT via given credentials.
      *
-     * @param ApiLoginValidation $request
+     * @param LoginRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(ApiLoginValidation $request)
+    public function login(LoginRequest $request)
     {
         $credentials = request(['email', 'password']);
 

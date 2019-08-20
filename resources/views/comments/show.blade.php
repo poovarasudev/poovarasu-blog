@@ -1,4 +1,4 @@
-@can('view comment')
+@can('view-comment')
     @php $comments = $post->comments->sortByDesc('created_at') @endphp
     @foreach($comments as $comment)
         <div class="row" id="comment-{{ $comment->id }}">
@@ -11,10 +11,10 @@
                         <div class="media-body">
                             <p class="media-heading">{{ $comment->created_at->diffForHumans() }}</p>
                             <div class="comment-content"><p><b>{{ $comment->comment }}</b></p></div>
-                            @can('edit comment')
+                            @can('edit-comment')
                                 <a class="m-r-10" id="comment-link" href="#" onclick="editContent('{{ $comment->id }}', '{{ $comment->comment }}')">edit</a>
                             @endcan
-                            @can('delete comment')
+                            @can('delete-comment')
                                 <a href="#" id="comment-link" onclick="deleteComment({{ $comment->id }})">delete</a>
                             @endcan
                         </div>

@@ -18,10 +18,10 @@ class CommentsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:create comment', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit comment',   ['only' => ['edit', 'update']]);
-        $this->middleware('permission:view comment',   ['only' => ['show']]);
-        $this->middleware('permission:delete comment',   ['only' => ['destroy']]);
+        $this->middleware('permission:create-comment', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-comment',   ['only' => ['edit', 'update']]);
+        $this->middleware('permission:view-comment',   ['only' => ['show']]);
+        $this->middleware('permission:delete-comment',   ['only' => ['destroy']]);
     }
 
     /**

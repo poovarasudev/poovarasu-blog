@@ -10,13 +10,8 @@ use App\Http\Requests\Post\UpdateBlogPost;
 use App\Post;
 use App\Image;
 use App\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use mysql_xdevapi\Exception;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostsController extends Controller
@@ -29,10 +24,10 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:create post', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit post',   ['only' => ['edit', 'update']]);
-        $this->middleware('permission:view post',   ['only' => ['show']]);
-        $this->middleware('permission:delete post',   ['only' => ['destroy']]);
+        $this->middleware('permission:create-post', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-post',   ['only' => ['edit', 'update']]);
+        $this->middleware('permission:view-post',   ['only' => ['show']]);
+        $this->middleware('permission:delete-post',   ['only' => ['destroy']]);
     }
 
     /**
@@ -68,37 +63,15 @@ class PostsController extends Controller
      */
     public function store(StoreBlogPost $request)
     {
-        $input_tag = explode(",", $request->tagInput);
-        $old_tags = DB::table('tags')->pluck('tag_name');
-        $new_tags = array_diff($input_tag, $old_tags->toArray());
-        if (!empty($new_tags)) {
-            foreach ($new_tags as $new_tag) {
-                if ($new_tag != ""){
-                Tag::create(['tag_name' => $new_tag]);
-                }
-            }
-        }
-        $input_tag_id = DB::table('tags')->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
         $post = Post::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'email' => auth()->user()->email,
             'user_id' => auth()->user()->id,
         ]);
-        $post->tags()->sync($input_tag_id);
-        if ($request->hasFile('image_name')) {
-            foreach ($request->image_name as $image_name) {
-                $originalfilename = $image_name->getClientOriginalName();
-                $image_name->storeAs('public/posts_images', $originalfilename);
-                Image::create([
-                    'post_id' => $post->id,
-                    'image_name' => $originalfilename,
-                ]);
-            }
-        }
-        if (Cache::has('tags')){
-            Cache::forget('tags');
-        }
+        $this->syncTag($request, $post);
+        $this->syncImage($request, $post);
+        $this->forgetCache();
         event(new PostCreate($post, auth()->user()->name));
         return redirect('/post/' . $post->id);
     }
@@ -136,21 +109,8 @@ class PostsController extends Controller
     {
         try {
             $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
-            $input_tag = explode(",", $request->tagInput);
-            $old_tags = DB::table('tags')->pluck('tag_name');
-            $new_tags = array_diff($input_tag, $old_tags->toArray());
-            if (!empty($new_tags)) {
-                foreach ($new_tags as $new_tag) {
-                    if ($new_tag != ''){
-                    Tag::create(['tag_name' => $new_tag]);
-                    }
-                }
-            }
-            $input_tag_id = DB::table('tags')->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
-            $post->tags()->sync($input_tag_id);
-            if (Cache::has('tags')){
-                Cache::forget('tags');
-            }
+            $this->syncTag($request, $post);
+            $this->forgetCache();
             event(new PostUpdate($post, auth()->user()->name));
             return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
         } catch (\Throwable $exception) {
@@ -170,15 +130,19 @@ class PostsController extends Controller
             Image::wherePostId($post->id)->delete();
             event(new PostDelete($post, auth()->user()->name));
             $post->delete();
-            if (Cache::has('tags')){
-                Cache::forget('tags');
-            }
+            $this->forgetCache();
             return response()->json(['action' => 'success', 'message' => 'Post deleted succesfully']);
         } catch (\Throwable $exception) {
             return response()->json(['action' => 'error', 'message' => 'Unable to delete post'], 500);
         }
     }
 
+    /**
+     * Display the all post.
+     *
+     * @return Response
+     * @throws \Exception
+     */
     public function getPosts()
     {
         $posts = Post::select('id', 'title', 'created_at', 'email');
@@ -194,6 +158,51 @@ class PostsController extends Controller
             ->editColumn('created_at', function (Post $post) {
                 return $post->created_at->format('d/m/y');
             })->make(true);
+    }
+
+    /**
+     * @param $request
+     * @param $post
+     */
+    public function syncTag($request, $post): void
+    {
+        $input_tag = explode(",", $request->tagInput);
+        $old_tags = Tag::all()->pluck('tag_name');
+        $new_tags = array_diff($input_tag, $old_tags->toArray());
+        if (!empty($new_tags)) {
+            foreach ($new_tags as $new_tag) {
+                if ($new_tag != "") {
+                    Tag::create(['tag_name' => $new_tag]);
+                }
+            }
+        }
+        $input_tag_id = Tag::all()->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
+        $post->tags()->sync($input_tag_id);
+    }
+
+    public function forgetCache(): void
+    {
+        if (Cache::has('tags')) {
+            Cache::forget('tags');
+        }
+    }
+
+    /**
+     * @param $request
+     * @param $post
+     */
+    public function syncImage($request, $post): void
+    {
+        if ($request->hasFile('image_name')) {
+            foreach ($request->image_name as $image_name) {
+                $originalfilename = $image_name->getClientOriginalName();
+                $image_name->storeAs('public/posts_images', $originalfilename);
+                Image::create([
+                    'post_id' => $post->id,
+                    'image_name' => $originalfilename,
+                ]);
+            }
+        }
     }
 
 }

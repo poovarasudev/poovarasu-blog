@@ -70,57 +70,57 @@
                                             <tr style="border: hidden">
                                                 <th>Post</th>
                                                 <td>
-                                                    <input type="checkbox" id="11" name="permission[]" class="filled-in chk-col-light-blue" value="create post" @if(is_array(old('permission')) && in_array("create post", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="11" name="permission[]" class="filled-in chk-col-light-blue" value="create-post" @if(is_array(old('permission')) && in_array("create-post", old('permission'))) checked @endif>
                                                     <label for="11"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="12" name="permission[]" class="filled-in chk-col-light-blue" value="edit post" @if(is_array(old('permission')) && in_array("edit post", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="12" name="permission[]" class="filled-in chk-col-light-blue" value="edit-post" @if(is_array(old('permission')) && in_array("edit-post", old('permission'))) checked @endif>
                                                     <label for="12"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="13"name="permission[]" class="filled-in chk-col-light-blue" value="view post" @if(is_array(old('permission')) && in_array("view post", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="13"name="permission[]" class="filled-in chk-col-light-blue" value="view-post" @if(is_array(old('permission')) && in_array("view-post", old('permission'))) checked @endif>
                                                     <label for="13"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="14"name="permission[]" class="filled-in chk-col-light-blue" value="delete post" @if(is_array(old('permission')) && in_array("delete post", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="14"name="permission[]" class="filled-in chk-col-light-blue" value="delete-post" @if(is_array(old('permission')) && in_array("delete-post", old('permission'))) checked @endif>
                                                     <label for="14"></label>
                                                 </td>
                                             </tr>
                                             <tr style="border: hidden">
                                                 <th>Comment</th>
                                                 <td>
-                                                    <input type="checkbox" id="21"name="permission[]" class="filled-in chk-col-light-blue" value="create comment" @if(is_array(old('permission')) && in_array("create comment", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="21"name="permission[]" class="filled-in chk-col-light-blue" value="create-comment" @if(is_array(old('permission')) && in_array("create-comment", old('permission'))) checked @endif>
                                                     <label for="21"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="22"name="permission[]" class="filled-in chk-col-light-blue" value="edit comment" @if(is_array(old('permission')) && in_array("edit comment", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="22"name="permission[]" class="filled-in chk-col-light-blue" value="edit-comment" @if(is_array(old('permission')) && in_array("edit-comment", old('permission'))) checked @endif>
                                                     <label for="22"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="23"name="permission[]" class="filled-in chk-col-light-blue" value="view comment" @if(is_array(old('permission')) && in_array("view comment", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="23"name="permission[]" class="filled-in chk-col-light-blue" value="view-comment" @if(is_array(old('permission')) && in_array("view-comment", old('permission'))) checked @endif>
                                                     <label for="23"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="24"name="permission[]" class="filled-in chk-col-light-blue" value="delete comment" @if(is_array(old('permission')) && in_array("delete comment", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="24"name="permission[]" class="filled-in chk-col-light-blue" value="delete-comment" @if(is_array(old('permission')) && in_array("delete-comment", old('permission'))) checked @endif>
                                                     <label for="24"></label>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>Tag</th>
                                                 <td>
-                                                    <input type="checkbox" id="31"name="permission[]" class="filled-in chk-col-light-blue" value="create tag" @if(is_array(old('permission')) && in_array("create tag", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="31"name="permission[]" class="filled-in chk-col-light-blue" value="create-tag" @if(is_array(old('permission')) && in_array("create-tag", old('permission'))) checked @endif>
                                                     <label for="31"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="32"name="permission[]" class="filled-in chk-col-light-blue" value="edit tag" @if(is_array(old('permission')) && in_array("edit tag", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="32"name="permission[]" class="filled-in chk-col-light-blue" value="edit-tag" @if(is_array(old('permission')) && in_array("edit-tag", old('permission'))) checked @endif>
                                                     <label for="32"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="33"name="permission[]" class="filled-in chk-col-light-blue" value="view tag" @if(is_array(old('permission')) && in_array("view tag", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="33"name="permission[]" class="filled-in chk-col-light-blue" value="view-tag" @if(is_array(old('permission')) && in_array("view-tag", old('permission'))) checked @endif>
                                                     <label for="33"></label>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" id="34"name="permission[]" class="filled-in chk-col-light-blue" value="delete tag" @if(is_array(old('permission')) && in_array("delete tag", old('permission'))) checked @endif>
+                                                    <input type="checkbox" id="34"name="permission[]" class="filled-in chk-col-light-blue" value="delete-tag" @if(is_array(old('permission')) && in_array("delete-tag", old('permission'))) checked @endif>
                                                     <label for="34"></label>
                                                 </td>
                                             </tr>

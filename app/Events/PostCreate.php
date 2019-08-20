@@ -26,7 +26,7 @@ class PostCreate
     {
         $this->post = $post;
         $this->auth = $auth;
-        $this->url = env('APP_URL') . "/post/" . $post->id;
+        $this->url = config('app.url') . "/post/" . $post->id;
     }
 
     /**

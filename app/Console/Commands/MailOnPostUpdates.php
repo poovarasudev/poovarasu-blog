@@ -9,14 +9,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade as PDF;
 
-class SendDailyPostUpdateEmails extends Command
+class MailOnPostUpdates extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'SendDailyPostUpdateEmails';
+    protected $signature = 'mail:post-updates';
 
     /**
      * The console command description.

@@ -17,7 +17,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('datatable/getdata', 'PostsController@getPosts')->name('datatable/getdata');
 });
 
-Route::group(['middleware' => ['permission:create comment|edit comment|delete comment|view comment']], function () {
+Route::group(['middleware' => ['permission:create-comment|edit-comment|delete-comment|view-comment']], function () {
     Route::resource('comment','CommentsController');
 });
 

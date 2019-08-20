@@ -16,13 +16,13 @@
                                     <div class="col-lg-6" id="post-title"><h3 id="blog-heading">{{ $post->title }}</h3>
                                     </div>
                                     <div class="col-lg-6">
-                                        @can('delete post')
+                                        @can('delete-post')
                                         <button type="button" id="delete" style="margin-right: 5px"
                                                 class="btn btn-default btn-circle waves-effect waves-circle waves-float pull-right"
                                                 data-id="{{$post->id}}">
                                             <i class="material-icons">delete</i></button>
                                         @endcan
-                                        @can('edit post')
+                                        @can('edit-post')
                                         <button type="button" style="margin-right: 7px" id="edit-btn"
                                                 data-toggle="modal" data-target="#largeModal"
                                                 class="btn btn-default btn-circle waves-effect waves-circle waves-float pull-right">
@@ -89,7 +89,7 @@
                                 <div id="post-description" class="row-lg-6">
                                     <p id="blog-post-description" disabled>{!! $post->description !!}</p>
                                 </div>
-                                @can('view tag')
+                                @can('view-tag')
                                     @if(!$tags->isEmpty())
                                             <hr>
                                         <div class="row">
@@ -103,7 +103,7 @@
                                     @endif
                                 @endcan
                             </div>
-                            @if(auth()->user()->can('create comment') || auth()->user()->can('view comment'))
+                            @if(auth()->user()->can('create-comment') || auth()->user()->can('view comment'))
                                 <div class="footer">
                                     <hr>
                                     @include('comments.create')

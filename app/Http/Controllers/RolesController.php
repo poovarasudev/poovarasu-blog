@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Role\StoreRole;
 use App\Http\Requests\Role\UpdateRole;
-use Illuminate\Http\Request;
 use App\Role;
 use mysql_xdevapi\Exception;
 use Yajra\DataTables\Facades\DataTables;

@@ -14,14 +14,14 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use mysql_xdevapi\Exception;
 
-class ApiPostCrudController extends Controller
+class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('JWTAuthentication', ['only' => ['store', 'update', 'destroy']]);
+        //
     }
 
     /**
@@ -42,39 +42,15 @@ class ApiPostCrudController extends Controller
      */
     public function store(StoreBlogPost $request)
     {
-        info($request);
-        $input_tag = explode(",", $request->tagInput);
-        $old_tags = DB::table('tags')->pluck('tag_name');
-        $new_tags = array_diff($input_tag, $old_tags->toArray());
-        if (!empty($new_tags)) {
-            foreach ($new_tags as $new_tag) {
-                if ($new_tag != ""){
-                    Tag::create(['tag_name' => $new_tag]);
-                }
-            }
-        }
-        $input_tag_id = DB::table('tags')->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
         $post = Post::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'email' => auth()->user()->email,
             'user_id' => auth()->user()->id,
         ]);
-        $post->tags()->sync($input_tag_id);
-        if ($request->hasFile('image_name')) {
-            foreach ($request->image_name as $image_name) {
-                $originalfilename = $image_name->getClientOriginalName();
-                info($originalfilename);
-                $image_name->storeAs('public/posts_images', $originalfilename);
-                Image::create([
-                    'post_id' => $post->id,
-                    'image_name' => $originalfilename,
-                ]);
-            }
-        }
-        if (Cache::has('tags')){
-            Cache::forget('tags');
-        }
+        $this->syncTag($request, $post);
+        $this->syncImage($request, $post);
+        $this->forgetCache();
         event(new PostCreate($post, auth()->user()->name));
         $current_post = Post::with("tags", "images")->find($post->id);
         return new ApiPostShowResponse($current_post);
@@ -95,10 +71,12 @@ class ApiPostCrudController extends Controller
             }
             return (new ApiPostShowResponse($result));
         } catch (\Throwable $exception) {
+            $route_name = str_replace(' ', '_', strtoupper(Route::currentRouteName()));
             $error = [
                 "status" => 'unknown post',
                 "controller_error" => [
-                    "Post not found"
+                    "code" => $route_name . '-' . "POST" . '-' . "NOT_FOUND",
+                    "message" => "Post not found."
                 ]
             ];
             return(response()->json($error, 404));
@@ -120,30 +98,18 @@ class ApiPostCrudController extends Controller
             throw new Exception();
             }
             $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
-            $input_tag = explode(",", $request->tagInput);
-            $old_tags = DB::table('tags')->pluck('tag_name');
-            $new_tags = array_diff($input_tag, $old_tags->toArray());
-            if (!empty($new_tags)) {
-                foreach ($new_tags as $new_tag) {
-                    if ($new_tag != ''){
-                        Tag::create(['tag_name' => $new_tag]);
-                    }
-                }
-            }
-            $input_tag_id = DB::table('tags')->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
-            $post->tags()->sync($input_tag_id);
-        if (Cache::has('tags')){
-            Cache::forget('tags');
-        }
-        event(new PostUpdate($post, auth()->user()->name));
-
+            $this->syncTag($request, $post);
+            $this->forgetCache();
+            event(new PostUpdate($post, auth()->user()->name));
             $current_post = Post::with("tags", "images")->find($post->id);
             return new ApiPostShowResponse($current_post);
         } catch (\Throwable $exception) {
+            $route_name = str_replace(' ', '_', strtoupper(Route::currentRouteName()));
             $error = [
-                "status" => 'validation failed',
+                "status" => 'unknown post',
                 "controller_error" => [
-                    "Post not found"
+                    "code" => $route_name . '-' . "POST" . '-' . "NOT_FOUND",
+                    "message" => "Post not found."
                 ]
             ];
             return(response()->json($error, 404));
@@ -166,18 +132,63 @@ class ApiPostCrudController extends Controller
             Image::wherePostId($post->id)->delete();
         event(new PostDelete($post, auth()->user()->name));
             $post->delete();
-        if (Cache::has('tags')){
-            Cache::forget('tags');
-        }
+            $this->forgetCache();
             return(response()->json(["Post Deleted Successfully"], 200));
         } catch (\Throwable $exception) {
+            $route_name = str_replace(' ', '_', strtoupper(Route::currentRouteName()));
             $error = [
                 "status" => 'unknown post',
                 "controller_error" => [
-                    "Post not found"
+                    "code" => $route_name . '-' . "POST" . '-' . "NOT_FOUND",
+                    "message" => "Post not found."
                 ]
             ];
             return(response()->json($error, 404));
+        }
+    }
+
+    public function forgetCache(): void
+    {
+        if (Cache::has('tags')) {
+            Cache::forget('tags');
+        }
+    }
+
+    /**
+     * @param $request
+     * @param $post
+     */
+    public function syncTag($request, $post): void
+    {
+        $input_tag = explode(",", $request->tagInput);
+        $old_tags = Tag::all()->pluck('tag_name');
+        $new_tags = array_diff($input_tag, $old_tags->toArray());
+        if (!empty($new_tags)) {
+            foreach ($new_tags as $new_tag) {
+                if ($new_tag != "") {
+                    Tag::create(['tag_name' => $new_tag]);
+                }
+            }
+        }
+        $input_tag_id = Tag::all()->whereIn('tag_name', $input_tag)->pluck('id')->toArray();
+        $post->tags()->sync($input_tag_id);
+    }
+
+    /**
+     * @param $request
+     * @param $post
+     */
+    public function syncImage($request, $post): void
+    {
+        if ($request->hasFile('image_name')) {
+            foreach ($request->image_name as $image_name) {
+                $originalfilename = $image_name->getClientOriginalName();
+                $image_name->storeAs('public/posts_images', $originalfilename);
+                Image::create([
+                    'post_id' => $post->id,
+                    'image_name' => $originalfilename,
+                ]);
+            }
         }
     }
 }

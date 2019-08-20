@@ -14,7 +14,7 @@
                             <div class="row">
                                 <div class="col-lg-6"><h3>POST</h3></div>
                                 <div class="col-lg-6">
-                                    @can('create post')
+                                    @can('create-post')
                                     <button type="button"
                                             class="btn btn-default btn-circle-lg waves-effect waves-circle waves-float pull-right">
                                         <a href="/post/create"><i class="material-icons">add_to_queue</i></a></button>

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use http\Client\Response;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -30,6 +31,12 @@ class ApiExceptionHandler extends FormRequest
         return [];
     }
 
+    /**
+     * Set the Errors.
+     *
+     * @param Validator $validator
+     * @return Response
+     */
     protected function failedValidation(Validator $validator)
     {
         $route_name = str_replace(' ', '_', strtoupper(Route::currentRouteName()));
@@ -39,7 +46,7 @@ class ApiExceptionHandler extends FormRequest
         foreach ($failed_rules as $error_name => $error_message) {
             $attribute = array_keys($rule["$error_name"]);
             $errors[] = [
-                "code" => $route_name . '-' . str_replace(' ', '_', strtoupper($error_name)) . '-' . str_replace(' ', '_', strtoupper($attribute[0])),
+                    "code" => $route_name . '-' . strtoupper($error_name) . '-' . strtoupper($attribute[0]),
                 "message" => $error_message[0]
             ];
         }

@@ -19,16 +19,15 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1/auth'], function () {
     Route::post('login', 'Api\v1\AuthController@login')->name('Login Route');
-    Route::post('logout', 'Api\v1\AuthController@logout')->name('Log Out');
-    Route::post('refresh', 'Api\v1\AuthController@refresh')->name('Refresh Route');
-    Route::post('me', 'Api\v1\AuthController@me');
-    Route::get('posts', 'Api\v1\AuthController@getPosts');
+    Route::post('logout', 'Api\v1\AuthController@logout')->name('Log Out')->middleware('JWTAuthentication');
+    Route::post('refresh', 'Api\v1\AuthController@refresh')->name('Refresh Route')->middleware('JWTAuthentication');
+    Route::post('me', 'Api\v1\AuthController@me')->middleware('JWTAuthentication');
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('/api-post', 'Api\v1\ApiPostCrudController@index')->name('All Post');
-    Route::post('/api-post/create', 'Api\v1\ApiPostCrudController@store')->name('Create Post');
-    Route::get('/api-post/{id}', 'Api\v1\ApiPostCrudController@show')->name('Show Post');
-    Route::put('/api-post/{id}/update', 'Api\v1\ApiPostCrudController@update')->name('Update Post');
-    Route::delete('/api-post/{id}/delete', 'Api\v1\ApiPostCrudController@destroy')->name('Delete Post');
+    Route::get('/api-post', 'Api\v1\PostController@index')->name('All Post');
+    Route::post('/api-post/create', 'Api\v1\PostController@store')->name('Create Post')->middleware('JWTAuthentication');
+    Route::get('/api-post/{id}', 'Api\v1\PostController@show')->name('Show Post');
+    Route::put('/api-post/{id}/update', 'Api\v1\PostController@update')->name('Update Post')->middleware('JWTAuthentication');
+    Route::delete('/api-post/{id}/delete', 'Api\v1\PostController@destroy')->name('Delete Post')->middleware('JWTAuthentication');
 });

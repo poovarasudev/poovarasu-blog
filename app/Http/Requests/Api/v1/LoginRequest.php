@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\v1;
 
 use App\Exceptions\ApiExceptionHandler;
 
-class ApiLoginValidation extends ApiExceptionHandler
+class LoginRequest extends ApiExceptionHandler
 {
     /**
      * Determine if the user is authorized to make this request.

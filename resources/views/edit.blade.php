@@ -19,7 +19,7 @@
                         <textarea class="form-control" name="description" rows="4" id="ckeditor" maxlength="100"
                                   required>{{ $post->description }}</textarea>
                     </div>
-                    @can('edit tag')
+                    @can('edit-tag')
                         @php $tags = $post->tags->pluck('tag_name')->toArray() @endphp
                         <div class="form-group demo-tagsinput-area">
                             <label for="tag">Tags</label>

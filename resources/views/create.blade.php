@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <textarea name="description" data-minlength="15" id="ckeditor">{{ old('description') }}</textarea>
                                 </div>
-                                @can('create tag')
+                                @can('create-tag')
                                     <div class="form-group demo-tagsinput-area">
                                         <label for="tag">Tags</label>
                                         <div class="form-line">
