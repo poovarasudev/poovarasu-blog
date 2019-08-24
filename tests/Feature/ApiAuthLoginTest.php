@@ -25,18 +25,13 @@ class ApiAuthLoginTest extends TestCase
             'name' => "testing",
             'email' => "testing@gmail.com",
             'password' => Hash::make(12345678)];
-
         User::create($user);
-
         $response = $this->post('/api/v1/auth/login', [
             'email' => "testing@gmail.com",
             'password' => "12345678",
         ]);
-
         $data = (new ApiLoginResponse(auth()->user()))->toArray(request());
-
 //        $data = json_decode(json_encode(new ApiLoginResponse(auth()->user())), true);
-
         $response
             ->assertStatus(200)
             ->assertJson(['data' => $data]);
@@ -48,12 +43,10 @@ class ApiAuthLoginTest extends TestCase
             'email' => "",
             'password' => "12345678",
         ]);
-
         $error = [
             "status" => "validation failed",
             "error" => [config('code.login_validation.email_required')]
         ];
-
         $response->assertStatus(422)->assertJson($error);
     }
 
@@ -63,12 +56,10 @@ class ApiAuthLoginTest extends TestCase
             'email' => "abc@gmail.com",
             'password' => "",
         ]);
-
         $error = [
             "status" => "validation failed",
             "error" => [config('code.login_validation.password_required')]
         ];
-
         $response->assertStatus(422)->assertJson($error);
     }
 
@@ -78,12 +69,10 @@ class ApiAuthLoginTest extends TestCase
             'email' => "abc@gmail.com",
             'password' => "123",
         ]);
-
         $error = [
             "status" => "validation failed",
             "error" => [config('code.login_validation.password_min')]
         ];
-
         $response->assertStatus(422)->assertJson($error);
     }
 
@@ -93,12 +82,10 @@ class ApiAuthLoginTest extends TestCase
             'email' => "abc@",
             'password' => "12345678",
         ]);
-
         $error = [
             "status" => "validation failed",
             "error" => [config('code.login_validation.email_email')]
         ];
-
         $response->assertStatus(422)->assertJson($error);
     }
 
@@ -108,11 +95,9 @@ class ApiAuthLoginTest extends TestCase
             'email' => "abcdfghj@gmail.com",
             'password' => "1234fg678",
         ]);
-
         $error = [
             "error" => "Please enter a valid credentials"
         ];
-
         $response->assertStatus(401)->assertJson($error);
     }
 }

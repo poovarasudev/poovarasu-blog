@@ -17,7 +17,7 @@
                         <label for="name">Role Name</label><br>
                         <select class="form-control show-tick" data-live-search="true" id="editRoleId" name="rollName">
                             @foreach($roles as $role)
-                                @if($role->name != 'admin')
+                                @if(!$role->isAdmin())
                                     <option value="{{ $role->name }}">{{ $role->name }}</option>
                                 @endif
                             @endforeach
@@ -34,3 +34,4 @@
         </div>
     </div>
 </div>
+

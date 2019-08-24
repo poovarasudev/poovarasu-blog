@@ -47,7 +47,7 @@ class ApiExceptionHandler extends FormRequest
             $attribute = array_keys($rule["$error_name"]);
             $errors[] = [
                     "code" => $route_name . '-' . strtoupper($error_name) . '-' . strtoupper($attribute[0]),
-                "message" => $error_message[0]
+                    "message" => $error_message[0]
             ];
         }
         $response = [

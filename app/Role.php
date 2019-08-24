@@ -19,4 +19,15 @@ class Role extends \Spatie\Permission\Models\Role
     public function permission(){
         return $this->belongsToMany(Permission::class,'role_has_permissions');
     }
+
+    /**
+     * Get the permissions for the role.
+     */
+    public function isAdmin(){
+        if ($this->name == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

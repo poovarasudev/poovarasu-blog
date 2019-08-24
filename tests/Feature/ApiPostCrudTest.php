@@ -16,7 +16,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class ApiPostCrudTest extends TestCase
 {
     use DatabaseTransactions;
-    public $token;
+    public $token, $request, $updateRequest;
 
     public function setUp(): void
     {
@@ -25,14 +25,21 @@ class ApiPostCrudTest extends TestCase
         $user = ['email' => 'abc@gmail.com', 'password' => '12345678'];
 
         $this->token = auth()->attempt($user);
-
+        $this->request = [
+            'title' => "Title",
+            'description' => "This the description for the title",
+            'tagInput' => "tag1,tag2,tag3"
+        ];
+        $this->updateRequest = [
+            'title' => "new title",
+            'description' => "This the description for the title updated",
+            'tagInput' => "updated"
+        ];
     }
-
-    /** Index Test Case */
 
     public function test_index_response()
     {
-        $response = $this->get('/api/v1/api-post');
+        $response = $this->get('/api/v1/post');
 
         $data = Post::all()->toArray();
 
@@ -41,22 +48,9 @@ class ApiPostCrudTest extends TestCase
             ->assertJson($data);
     }
 
-    public $request = [
-        'title' => "Title",
-        'description' => "This the description for the title",
-        'tagInput' => "tag1,tag2,tag3"
-    ];
-    public $updateRequest = [
-        'title' => "new title",
-        'description' => "This the description for the title updated",
-        'tagInput' => "updated"
-    ];
-
-    /** Create Test Case */
-
     public function test_create_post_success()
     {
-        $response = $this->post('/api/v1/api-post/create', [
+        $response = $this->post('/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput']
@@ -69,7 +63,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_without_title()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => "",
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput']
@@ -86,7 +80,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_with_title_minimum_condition()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => "hai",
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput']
@@ -102,7 +96,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_with_title_maximum_condition()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => "haihaihaihai",
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput']
@@ -118,7 +112,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_without_description()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => "",
             'tagInput' => $this->request['tagInput']
@@ -134,7 +128,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_with_description_minimum_condition()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => "description",
             'tagInput' => $this->request['tagInput']
@@ -150,7 +144,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_without_tag()
     {
-        $response = $this->post('/api/v1/api-post/create', [
+        $response = $this->post('/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => $this->request['description']
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
@@ -162,7 +156,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_with_tag_minimum_condition()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => $this->request['description'],
             'tagInput' => "s"
@@ -178,7 +172,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_without_image()
     {
-        $response = $this->post('/api/v1/api-post/create', [
+        $response = $this->post('/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => $this->request['description']
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
@@ -190,7 +184,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_with_image()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput'],
@@ -204,7 +198,7 @@ class ApiPostCrudTest extends TestCase
 
     public function test_create_post_with_image_as_pdf()
     {
-        $response = $this->json('POST', '/api/v1/api-post/create', [
+        $response = $this->json('POST', '/api/v1/post/create', [
             'title' => $this->request['title'],
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput'],
@@ -221,8 +215,6 @@ class ApiPostCrudTest extends TestCase
 
     }
 
-    /** Update Test Case */
-
     public function test_update_post_success()
     {
         $post = Post::create([
@@ -232,7 +224,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->put("/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->put("/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => $this->updateRequest['description'],
             'tagInput' => $this->updateRequest['tagInput']
@@ -252,7 +244,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => "",
             'description' => $this->updateRequest['description'],
             'tagInput' => $this->updateRequest['tagInput']
@@ -275,7 +267,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => "hai",
             'description' => $this->updateRequest['description'],
             'tagInput' => $this->updateRequest['tagInput']
@@ -298,7 +290,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => "haihaihaihai",
             'description' => $this->updateRequest['description'],
             'tagInput' => $this->updateRequest['tagInput']
@@ -321,7 +313,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => "",
             'tagInput' => $this->updateRequest['tagInput']
@@ -344,7 +336,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => "description",
             'tagInput' => $this->updateRequest['tagInput']
@@ -367,7 +359,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->put("/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->put("/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => $this->updateRequest['description']
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
@@ -386,7 +378,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => $this->updateRequest['description'],
             'tagInput' => "s"
@@ -409,7 +401,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->put("/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->put("/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => $this->updateRequest['description']
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
@@ -428,7 +420,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => $this->updateRequest['description'],
             'tagInput' => $this->updateRequest['tagInput'],
@@ -449,7 +441,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->json('PUT', "/api/v1/api-post/" . $post->id . "/update", [
+        $response = $this->json('PUT', "/api/v1/post/" . $post->id . "/update", [
             'title' => $this->updateRequest['title'],
             'description' => $this->updateRequest['description'],
             'tagInput' => $this->updateRequest['tagInput'],
@@ -465,7 +457,28 @@ class ApiPostCrudTest extends TestCase
 
     }
 
-    /** Show Test Case */
+    public function test_update_post_with_invalid_id()
+    {
+        $post = Post::create([
+            'title' => $this->request['title'],
+            'description' => $this->request['description'],
+            'email' => auth()->user()->email,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $response = $this->put("/api/v1/post/" . ($post->id + 1) . "/update", [
+            'title' => $this->updateRequest['title'],
+            'description' => $this->updateRequest['description'],
+            'tagInput' => $this->updateRequest['tagInput']
+        ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
+
+        $error = [
+            "status" => "unknown post",
+            "controller_error" => config('code.update_post.invalid_id')
+        ];
+
+        $response->assertStatus(404)->assertJson($error);
+    }
 
     public function test_post_show_success()
     {
@@ -476,7 +489,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->get("/api/v1/api-post/" . $post->id);
+        $response = $this->get("/api/v1/post/" . $post->id);
 
         $post = Post::with("tags", "images")->find(json_decode($response->getContent())->data->id);
         $data = (new ApiPostShowResponse($post))->response()->getData(true);
@@ -492,19 +505,15 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->get("/api/v1/api-post/" . ($post->id + 1));
+        $response = $this->get("/api/v1/post/" . ($post->id + 1));
 
         $error = [
             "status" => "unknown post",
-            "controller_error" => [
-                "Post not found"
-            ]
+            "controller_error" => config('code.show_post.invalid_id')
         ];
 
         $response->assertStatus(404)->assertJson($error);
     }
-
-    /** Delete Test Case */
 
     public function test_post_delete_success()
     {
@@ -522,13 +531,7 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-//        $response = $this->delete("/api/v1/api-post/" . $post->id . "/delete", ['HTTP_Authorization' => 'Bearer' . $this->token]);
-//        $response = $this->call("delete", "/api/v1/api-post/" .$post->id. "/delete", ['Authorization' => 'Bearer' . $this->token]);
-//        $response = $this->call("delete", "/api/v1/api-post/" .$post->id. "/delete", $headers);
-//        $response = $this->delete("/api/v1/api-post/" .$post->id. "/delete", ['_token' => csrf_token()]);
-//        $response = $this->delete("/api/v1/api-post/" .$post->id. "/delete")->header('Authorization', 'Bearer ' . $this->token);
-//        $response = $this->actingAs($user)->delete("/api/v1/api-post/" .$post->id. "/delete");
-        $response = $this->post("/api/v1/api-post/" . $post->id . "/delete", [
+        $response = $this->post("/api/v1/post/" . $post->id . "/delete", [
             '_method' => "delete"
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
 
@@ -544,15 +547,13 @@ class ApiPostCrudTest extends TestCase
             'user_id' => auth()->user()->id,
         ]);
 
-        $response = $this->post("/api/v1/api-post/" . ($post->id + 1) . "/delete", [
+        $response = $this->post("/api/v1/post/" . ($post->id + 1) . "/delete", [
             '_method' => "delete"
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
 
         $error = [
             "status" => "unknown post",
-            "controller_error" => [
-                "Post not found"
-            ]
+            "controller_error" => config('code.delete_post.invalid_id')
         ];
 
         $response->assertStatus(404)->assertJson($error);

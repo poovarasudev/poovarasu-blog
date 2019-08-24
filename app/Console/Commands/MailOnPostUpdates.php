@@ -42,6 +42,6 @@ class MailOnPostUpdates extends Command
      */
     public function handle()
     {
-        Mail::to(config('admin_mail_config.admin_mail'))->send(new DailyPostUpdateMail());
+        Mail::to(config('mail_id.admin_mail'))->send(new DailyPostUpdateMail());
     }
 }

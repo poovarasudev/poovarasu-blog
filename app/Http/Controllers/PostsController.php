@@ -25,9 +25,9 @@ class PostsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('permission:create-post', ['only' => ['create', 'store']]);
-        $this->middleware('permission:edit-post',   ['only' => ['edit', 'update']]);
-        $this->middleware('permission:view-post',   ['only' => ['show']]);
-        $this->middleware('permission:delete-post',   ['only' => ['destroy']]);
+        $this->middleware('permission:edit-post', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:view-post', ['only' => ['show']]);
+        $this->middleware('permission:delete-post', ['only' => ['destroy']]);
     }
 
     /**
@@ -147,7 +147,7 @@ class PostsController extends Controller
     {
         $posts = Post::select('id', 'title', 'created_at', 'email');
         return DataTables::of($posts)->addColumn('action', function ($post) {
-            if (auth()->user()->hasPermissionTo('view post')){
+            if (auth()->user()->hasPermissionTo('view-post')){
                 return '<button type="button" id="view" data-id="' . $post->id . '"
                                                     class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="redirect(' . $post->id . ')">
                                                 <i class="material-icons">visibility</i></button>';

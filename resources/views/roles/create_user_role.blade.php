@@ -40,7 +40,7 @@
                                 <select class="form-control show-tick" data-live-search="true" id="roleId" name="rollName">
                                     <option></option>
                                     @foreach($roles as $role)
-                                        @if($role->name != 'admin')
+                                        @if(!$role->isAdmin())
                                             <option value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endif
                                     @endforeach

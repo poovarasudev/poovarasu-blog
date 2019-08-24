@@ -16,15 +16,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('post','PostsController');
     Route::get('datatable/getdata', 'PostsController@getPosts')->name('datatable/getdata');
 });
-
 Route::group(['middleware' => ['permission:create-comment|edit-comment|delete-comment|view-comment']], function () {
     Route::resource('comment','CommentsController');
 });
-
 Auth::routes();
 Route::get('/no-role-page', 'HomeController@noRolePage');
 Route::get('/', 'HomeController@index')->middleware('auth');
-
 Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('user','UsersController');
     Route::resource('role','RolesController');
@@ -33,6 +30,4 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     Route::get('/dashboard', 'HomeController@dashboard');
 });
-
-
 Route::get('get-dashboard-datas', 'HomeController@getDashboardDatas');

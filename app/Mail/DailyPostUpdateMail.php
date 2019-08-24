@@ -34,7 +34,7 @@ class DailyPostUpdateMail extends Mailable
     public function build()
     {
         $from = Carbon::now()->subDays(10);
-        $to = Carbon::now();
+        $to = now();
         $data = Post::get()->whereBetween('created_at', array($from, $to));
         $no_of_post = count($data);
         if ($no_of_post !=0){

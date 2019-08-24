@@ -79,5 +79,23 @@ return [
             "code" => "UPDATE_POST-TAGINPUT-MIN",
             "message" => "The tag input must be at least 2 characters."
         ],
+    ],
+    'show_post' => [
+        'invalid_id' => [
+            "code" => "SHOW_POST-POST-NOT_FOUND",
+            "message" => "Post not found."
+        ],
+    ],
+    'delete_post' => [
+        'invalid_id' => [
+            "code" => "DELETE_POST-POST-NOT_FOUND",
+            "message" => "Post not found."
+        ],
+    ],
+    'update_post' => [
+        'invalid_id' => [
+            "code" => "UPDATE_POST-POST-NOT_FOUND",
+            "message" => "Post not found."
+        ],
     ]
 ];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Role\StoreRole;
 use App\Http\Requests\Role\UpdateRole;
 use App\Role;
+use Illuminate\Http\Response;
 use mysql_xdevapi\Exception;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -13,7 +14,7 @@ class RolesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -24,7 +25,7 @@ class RolesController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -34,14 +35,14 @@ class RolesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return Response
      */
     public function store(StoreRole $request)
     {
         $role = Role::create(['name' => $request->roleName, 'description' => $request->roleDescription, 'guard_name' => "web"]);
         $permissions = $request->permission;
-        foreach ($permissions as $permission){
+        foreach ($permissions as $permission) {
             $role->givePermissionTo($permission);
         }
         return view('roles.index');
@@ -50,8 +51,8 @@ class RolesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -61,20 +62,20 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit(Role $role)
     {
-        return view('roles.edit',compact('role'));
+        return view('roles.edit', compact('role'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Role $role, UpdateRole $request)
     {
@@ -82,12 +83,12 @@ class RolesController extends Controller
             $role->update(['name' => $request->get('roleName'), 'description' => $request->get('roleDescription')]);
             $permissions = $request->permission;
             $old_permissions = $role->permission()->pluck('name')->toArray();
-            $new_permissions = array_diff($permissions,$old_permissions);
+            $new_permissions = array_diff($permissions, $old_permissions);
             $delete_permissions = array_diff($old_permissions, $permissions);
-            foreach ($delete_permissions as $delete_permission){
+            foreach ($delete_permissions as $delete_permission) {
                 $role->revokePermissionTo($delete_permission);
             }
-            foreach ($new_permissions as $new_permission){
+            foreach ($new_permissions as $new_permission) {
                 $role->givePermissionTo($new_permission);
             }
             return view('roles.index');
@@ -99,13 +100,13 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy(Role $role)
     {
         try {
-            if ($role->name != 'admin'){
+            if (!$role->isAdmin()) {
                 $role->delete();
             } else {
                 throw new Exception();
@@ -116,17 +117,24 @@ class RolesController extends Controller
         }
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     * @throws \Exception
+     */
     public function getRoles()
     {
-        $role = Role::select('id','name', 'description');
+        $role = Role::select('id', 'name', 'description');
         return DataTables::of($role)->addColumn('action', function ($role) {
-            if ($role->name != 'admin'){
-                return '<button type="button" id="view" data-id="' . $role->id . '"
-                                                class="btn btn-default btn-circle waves-effect waves-circle waves-float m-r-10" onclick="deleteRole(' . $role->id . ')">
-                                            <i class="material-icons">delete</i></button><button type="button" id="view" data-id="' . $role->id . '"
-                                                class="btn btn-default btn-circle waves-effect waves-circle waves-float" onclick="redirect(' . $role->id . ')">
-                                            <i class="material-icons">edit</i></button>';
-            } else{
+            if (!$role->isAdmin()) {
+                return '<button type="button" id="view" data-id="' .$role->id. '"
+        class="btn btn-default btn-circle waves-effect waves-circle waves-float m-r-10"
+        onclick="deleteRole(' .$role->id. ')"><i class="material-icons"> delete</i></button>
+        <button type="button" id="view" data-id="' .$role->id. '"
+        class="btn btn-default btn-circle waves-effect waves-circle waves-float"
+        onclick="redirect(' .$role->id. ')"><i class="material-icons"> edit</i></button>';
+            } else {
                 return '<i class="material-icons m-l-30">remove</i>';
             }
 
@@ -135,6 +143,7 @@ class RolesController extends Controller
                 return count($role->permission);
             })
             ->make(true);
+
     }
 
 }
