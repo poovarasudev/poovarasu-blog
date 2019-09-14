@@ -11,6 +11,7 @@
 |
 */
 
+\Aschmelyun\Larametrics\Larametrics::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('post','PostsController');
