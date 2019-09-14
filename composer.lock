@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2b4776f11f8dc29d556be9d2f29a001",
+    "content-hash": "035048a5581f30e4bdf8c233a3cdd5ce",
     "packages": [
         {
             "name": "aschmelyun/larametrics",
@@ -2199,125 +2199,6 @@
             "time": "2018-06-03T10:10:03+00:00"
         },
         {
-            "name": "philkra/elastic-apm-laravel",
-            "version": "v5.8.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/philkra/elastic-apm-laravel.git",
-                "reference": "b8d05f621dc806e55c5b568f027455ff42cf799c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/philkra/elastic-apm-laravel/zipball/b8d05f621dc806e55c5b568f027455ff42cf799c",
-                "reference": "b8d05f621dc806e55c5b568f027455ff42cf799c",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "5.5.x|5.6.x|5.7.x|5.8.x",
-                "illuminate/http": "5.5.x|5.6.x|5.7.x|5.8.x",
-                "illuminate/routing": "5.5.x|5.6.x|5.7.x|5.8.x",
-                "illuminate/support": "5.5.x|5.6.x|5.7.x|5.8.x",
-                "philkra/elastic-apm-php-agent": ">=6.5.3",
-                "php": ">= 7.0",
-                "ramsey/uuid": "^3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "6.*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "PhilKra\\ElasticApmLaravel\\Providers\\ElasticApmServiceProvider"
-                    ],
-                    "aliases": {
-                        "ElasticApm": "PhilKra\\ElasticApmLaravel\\Facades\\ElasticApm"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhilKra\\ElasticApmLaravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Philip Krauss",
-                    "email": "philip@philipkrauss.at",
-                    "homepage": "https://github.com/philkra/elastic-apm-laravel"
-                },
-                {
-                    "name": "George Boot",
-                    "email": "george@entryninja.com"
-                }
-            ],
-            "description": "A package to integrate Elastic APM into Laravel",
-            "keywords": [
-                "apm",
-                "debug",
-                "elastic",
-                "laravel",
-                "lumen",
-                "monitoring"
-            ],
-            "time": "2019-08-12T18:11:04+00:00"
-        },
-        {
-            "name": "philkra/elastic-apm-php-agent",
-            "version": "6.5.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/philkra/elastic-apm-php-agent.git",
-                "reference": "2f3a341b6a387da49216021d9bda5161f029058a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/philkra/elastic-apm-php-agent/zipball/2f3a341b6a387da49216021d9bda5161f029058a",
-                "reference": "2f3a341b6a387da49216021d9bda5161f029058a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "guzzlehttp/guzzle": "6.*",
-                "php": ">= 7.0",
-                "ralouphie/getallheaders": "2.0.5",
-                "ramsey/uuid": "^3.7"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "6.*"
-            },
-            "suggest": {
-                "ext-xdebug": "Required for processing of request headers"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhilKra\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Philip Krauss",
-                    "email": "philip@philipkrauss.at",
-                    "homepage": "https://github.com/philkra/elastic-apm-agent-php"
-                },
-                {
-                    "name": "George Boot",
-                    "email": "george@entryninja.com"
-                }
-            ],
-            "description": "A php agent for Elastic APM",
-            "time": "2019-05-06T07:13:56+00:00"
-        },
-        {
             "name": "phpoffice/phpspreadsheet",
             "version": "1.8.2",
             "source": {
@@ -2731,24 +2612,24 @@
         },
         {
             "name": "ralouphie/getallheaders",
-            "version": "2.0.5",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
+                "reference": "120b605dfeb996808c31b6477290a714d356e822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
-                "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7.0",
-                "satooshi/php-coveralls": ">=1.0"
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5 || ^6.5"
             },
             "type": "library",
             "autoload": {
@@ -2767,7 +2648,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2016-02-11T07:05:27+00:00"
+            "time": "2019-03-08T08:55:37+00:00"
         },
         {
             "name": "ramsey/uuid",
