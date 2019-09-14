@@ -10,6 +10,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Maatwebsite\Excel\Facades\Excel;
 
 class HomeController extends Controller
@@ -67,12 +68,12 @@ class HomeController extends Controller
             ->groupBy('month')
             ->get();
         $i=0;
-        foreach ($monthPosts as $value){
+        foreach ($monthPosts as $value) {
             $monthPostsArray[$i] = array($value->month, $value->count);
             $i++;
         }
         $i=0;
-        foreach ($monthUsers as $value){
+        foreach ($monthUsers as $value) {
             $monthUsersArray[$i] = array($value->month, $value->count);
             $i++;
         }
@@ -85,12 +86,12 @@ class HomeController extends Controller
             ->groupBy('year')
             ->get();
         $i=0;
-        foreach ($yearPosts as $value){
+        foreach ($yearPosts as $value) {
             $yearPostsArray[$i] = array($value->year, $value->count);
             $i++;
         }
         $i=0;
-        foreach ($yearUsers as $value){
+        foreach ($yearUsers as $value) {
             $yearUsersArray[$i] = array($value->year, $value->count);
             $i++;
         }

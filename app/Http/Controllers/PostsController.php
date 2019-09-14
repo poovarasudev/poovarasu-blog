@@ -12,6 +12,7 @@ use App\Image;
 use App\Tag;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Yajra\DataTables\Facades\DataTables;
 
 class PostsController extends Controller
@@ -38,8 +39,7 @@ class PostsController extends Controller
     public function index()
     {
         try {
-            $posts = Post::all();
-            return view('index', compact('posts'));
+            return view('index');
         } catch (\Throwable $exception) {
             return view('errors.500')->with(['url' => route('home')]);
         }

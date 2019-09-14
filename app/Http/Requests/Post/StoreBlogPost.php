@@ -27,6 +27,7 @@ class StoreBlogPost extends FormRequest
             'title' => 'required|alpha_num|min:5',
             'description' => 'required|min:15',
             'image_name.*' => 'mimes:jpeg,jpg,png',
+//            'tagInput' => 'min:2',
         ];
     }
 }

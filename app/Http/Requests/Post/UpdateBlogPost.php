@@ -26,6 +26,7 @@ class UpdateBlogPost extends FormRequest
         return [
             'title' => 'required|alpha_num|min:5',
             'description' => 'required|min:15',
+            'tagInput' => 'min:2',
 //            'image_name.*' => 'mimes:jpeg,jpg,png',
         ];
     }

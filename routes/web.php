@@ -12,6 +12,21 @@
 */
 
 
+\Aschmelyun\Larametrics\Larametrics::routes();
+
+//Route::get('test', function(){
+    // Use any normal Laravel method of resolving the dependency
+//    $transaction = app(\PhilKra\ElasticApmLaravel\Apm\Transaction::class);
+//
+//    $span = $transaction->startNewSpan('My Span', 'app.redis');
+
+    // do some stuff
+
+//    $span->end();
+
+//    return 'asdf';
+//});
+
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('post','PostsController');
     Route::get('datatable/getdata', 'PostsController@getPosts')->name('datatable/getdata');
@@ -22,6 +37,7 @@ Route::group(['middleware' => ['permission:create-comment|edit-comment|delete-co
 Auth::routes();
 Route::get('/no-role-page', 'HomeController@noRolePage');
 Route::get('/', 'HomeController@index')->middleware('auth');
+Route::get('/home', 'HomeController@index')->middleware('auth');
 Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('user','UsersController');
     Route::resource('role','RolesController');

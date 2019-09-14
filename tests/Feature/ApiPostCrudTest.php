@@ -37,7 +37,7 @@ class ApiPostCrudTest extends TestCase
         ];
     }
 
-    public function test_index_response()
+    public function test_index_success()
     {
         $response = $this->get('/api/v1/post');
 
@@ -188,7 +188,7 @@ class ApiPostCrudTest extends TestCase
             'title' => $this->request['title'],
             'description' => $this->request['description'],
             'tagInput' => $this->request['tagInput'],
-            'image_name' =>[UploadedFile::fake()->image('image.jpg')],
+            'image_name' => [UploadedFile::fake()->image('image.jpg')],
         ], ['HTTP_Authorization' => 'Bearer' . $this->token]);
 
         $post = Post::with("tags", "images")->find(json_decode($response->getContent())->data->id);
