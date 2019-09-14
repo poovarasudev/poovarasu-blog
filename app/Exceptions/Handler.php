@@ -31,12 +31,12 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * @param  \Exception  $exception
-     * @return voidrowable($exception);
-    //        ElasticApm::send();
+     * @return void
      */
     public function report(Exception $exception)
     {
-//        ElasticApm::captureTh
+//        ElasticApm::captureThrowable($exception);
+//        ElasticApm::send();
         parent::report($exception);
     }
 
