@@ -1,0 +1,70 @@
+
+Atatus PHP Agent installation script v1.7.0
+=========================================================
+
+Action: install: Mon Sep 16 05:48:03 UTC 2019
+
+OS Detected: linux
+
+PHP executable       : /usr/bin/php
+PHP version          : 7.3.7-2+ubuntu18.04.1+deb.sury.org+1
+PHP thread safety    : no
+PHP extension_dir    : /usr/lib/php/20180731
+PHP config_scan dir  : /etc/php/7.3/cli/conf.d
+PHP config_file path : /etc/php/7.3/cli
+
+Install Directory: .
+Command: cp -f ./etc/logrotate.d/atatus-php-collector /etc/logrotate.d/
+Success
+Command: cp -f ./etc/logrotate.d/atatus-php-agent /etc/logrotate.d/
+Success
+Command: cp -f ./usr/bin/atatus-php-collector /usr/bin/
+Success
+Command: mkdir -p /usr/lib/atatus-php/
+Success
+Command: cp -Rf ./usr/lib/atatus-php/atatus.ini.template ./usr/lib/atatus-php/install.sh ./usr/lib/atatus-php/x86_64 /usr/lib/atatus-php/
+Success
+Command: rm -f /usr/lib/php/20180731/atatus.so
+Success
+Command: ln -sf /usr/lib/atatus-php/x86_64/atatus_php_7.3.so /usr/lib/php/20180731/atatus.so
+Success
+Command: mkdir -p /usr/share/doc/atatus-php/
+Success
+Command: cp -Rf ./usr/share/doc/atatus-php/changelog ./usr/share/doc/atatus-php/copyright /usr/share/doc/atatus-php/
+Success
+Command: cp -f ./usr/bin/atatus-php-installer /usr/bin/
+Success
+Command: chmod +x /usr/bin/atatus-php-installer
+Success
+Command: cp ./usr/lib/atatus-php/atatus.ini.template /etc/php/7.3/cli/conf.d/atatus.ini
+Success
+Command: chmod 644 /etc/php/7.3/cli/conf.d/atatus.ini
+Success
+/etc/php/7.3 matches with config_scan dir
+Command: ln -sf /etc/php/7.3/cli/conf.d/atatus.ini /etc/php/7.3/fpm/conf.d/atatus.ini
+Success
+Command: mkdir -p /var/log/atatus
+Success
+Command: chmod 777 /var/log/atatus
+Success
+Command: chmod 777 /var/log/atatus
+Success
+Command: touch /var/log/atatus/agent.log
+Success
+Command: chmod 777 /var/log/atatus/agent.log
+Success
+Command: touch /var/log/atatus/collector.log
+Success
+Command: chmod 777 /var/log/atatus/collector.log
+Success
+Command: touch /var/log/atatus/debug.txt
+Success
+Command: chmod 777 /var/log/atatus/debug.txt
+Success
+Setting your license key to the agent configuration: 
+Command: sh -c sed -i -e 's/atatus\.license_key = .*/atatus\.license_key = "lic_apm_855fbb1920e74308aa19eec996d6ef22"/' /etc/php/7.3/cli/conf.d/atatus.ini
+Success
+Setting your app name to the agent configuration: 
+Command: sh -c sed -i -e 's/atatus\.app_name = .*/atatus\.app_name = "Laravel Blog"/' /etc/php/7.3/cli/conf.d/atatus.ini
+Success
+Installed Atatus PHP Agent Successfully
