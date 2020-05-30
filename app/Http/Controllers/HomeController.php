@@ -59,11 +59,11 @@ class HomeController extends Controller
         $fromYear = Carbon::createMidnightDate(Carbon::now()->year - 8, 1, 1);
         $toYear = Carbon::createMidnightDate(Carbon::now()->year + 1, 1, 1);
         $monthPosts = Post::selectRaw('MONTH(created_at) AS month, COUNT(*) AS count')
-            ->whereBetween('created_at', [$from, $to])
+//            ->whereBetween('created_at', [$from, $to])
             ->groupBy('month')
             ->get();
         $monthUsers = User::selectRaw('MONTH(created_at) AS month, COUNT(*) AS count')
-            ->whereBetween('created_at', [$from, $to])
+//            ->whereBetween('created_at', [$from, $to])
             ->groupBy('month')
             ->get();
         $i=0;

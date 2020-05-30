@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Tag::class, function (Faker $faker) {
     return [
-        'tag_name' => Str::random(5),
+        'tag_name' => $faker->text(5),
         'created_at' => now(),
         'updated_at' => now(),
     ];
