@@ -22,7 +22,7 @@ Route::group(['middleware' => ['permission:create-comment|edit-comment|delete-co
 Auth::routes();
 Route::get('/no-role-page', 'HomeController@noRolePage');
 Route::get('/', 'HomeController@index')->middleware('auth');
-Route::group(['middleware' => ['role:admin']], function () {
+Route::group(['middleware' => ['role:Admin']], function () {
     Route::resource('user','UsersController');
     Route::resource('role','RolesController');
     Route::get('datatable/getrole', 'RolesController@getRoles')->name('datatable/getrole');

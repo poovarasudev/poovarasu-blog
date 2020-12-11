@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory;
+use Illuminate\Support\Str;
 
 class PostSeeder extends Seeder
 {
@@ -12,27 +13,73 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        $month = 10;
-        $overAllIterations = random_int(20, 35);
-        for ($i = 0; $i < $overAllIterations; $i++) {
-            $faker = Factory::create();
-            $user = \App\User::first();
-            $post = \App\Post::create([
-                'user_id' => $user->id,
-                'email' => $user->email,
-                'title' => $faker->title,
-                'description' => $faker->text(240),
-                'created_at' => now()->subMonths($month),
-            ]);
+        $faker = Factory::create();
 
-            $iterations = random_int(3, 15);
-            for ($j = 0; $j < $iterations; $j++) {
-                \App\PostTag::create([
-                    'post_id' => $post->id,
-                    'tag_id' => random_int(1, 7),
+        for ($month = 1; $month <= 120; $month++) {
+            $postCount = random_int(15, 75);
+            for ($i = 0; $i < $postCount; $i++) {
+                $post1 = \App\Post::create([
+                    'user_id' => random_int(1, 6),
+                    'email' => $faker->email,
+                    'title' => $faker->name,
+                    'description' => $faker->text(240),
+                    'created_at' => now()->subMonths($month)->addDays(random_int(5, 15))->subDays(random_int(5, 15)),
+                ]);
+
+                $iteration = random_int(0, 4);
+                for ($j = 0; $j < $iteration; $j++) {
+                    \App\PostTag::create([
+                        'post_id' => $post1->id,
+                        'tag_id' => random_int(1, 7),
+                    ]);
+                }
+            }
+
+            $userCount = random_int(1, 3);
+            for ($i = 0; $i < $userCount; $i++) {
+                \App\User::create([
+                    'name' => $faker->name,
+                    'email' => $faker->unique()->email,
+                    'email_verified_at' => now(),
+                    'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                    'remember_token' => Str::random(10),
+                    'created_at' => now()->subMonths($month)->addDays(random_int(5, 15))->subDays(random_int(5, 15)),
                 ]);
             }
-            $month--;
+        }
+
+        for ($month = 1; $month <= 24; $month++) {
+            $postCount = random_int(3, 15);
+            for ($i = 0; $i < $postCount; $i++) {
+                $faker = Factory::create();
+                $post1 = \App\Post::create([
+                    'user_id' => random_int(1, 6),
+                    'email' => $faker->email,
+                    'title' => $faker->name,
+                    'description' => $faker->text(240),
+                    'created_at' => now()->addMonths($month)->addDays(random_int(5, 15))->subDays(random_int(5, 15)),
+                ]);
+
+                $iteration = random_int(0, 4);
+                for ($j = 0; $j < $iteration; $j++) {
+                    \App\PostTag::create([
+                        'post_id' => $post1->id,
+                        'tag_id' => random_int(1, 7),
+                    ]);
+                }
+            }
+
+            $userCount = random_int(1, 3);
+            for ($i = 0; $i < $userCount; $i++) {
+                \App\User::create([
+                    'name' => $faker->name,
+                    'email' => $faker->unique()->email,
+                    'email_verified_at' => now(),
+                    'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                    'remember_token' => Str::random(10),
+                    'created_at' => now()->addMonths($month)->addDays(random_int(5, 15))->subDays(random_int(5, 15)),
+                ]);
+            }
         }
     }
 }

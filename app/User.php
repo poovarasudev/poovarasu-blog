@@ -13,7 +13,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, SoftDeletes, HasRoles;
+    use Notifiable, HasRoles;
+
+    // Commented for tmp issue fix
+//    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

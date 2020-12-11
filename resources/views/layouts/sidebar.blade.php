@@ -30,7 +30,7 @@
         <div class="menu">
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
-                @role('admin')
+                @role('Admin')
                 <li>
                     <a href="/dashboard">
                         <i class="material-icons">home</i>
@@ -44,7 +44,7 @@
                         <span>Posts</span>
                     </a>
                 </li>
-                @role('admin')
+                @role('Admin')
                 <li>
                     <a href="#">
                         <i class="material-icons">fingerprint</i>
@@ -54,13 +54,13 @@
                 <li>
                     <a href="/role">
                         <i class="material-icons">keyboard_arrow_right</i>
-                        <span>Create Roles</span>
+                        <span>Roles CRUD</span>
                     </a>
                 </li>
                 <li>
                     <a href="/user">
                         <i class="material-icons">keyboard_arrow_right</i>
-                        <span>Create Users</span>
+                        <span>Attach Roles - Users</span>
                     </a>
                 </li>
                 @endrole

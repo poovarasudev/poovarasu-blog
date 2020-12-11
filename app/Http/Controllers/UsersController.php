@@ -128,7 +128,7 @@ class UsersController extends Controller
                 return $user->roles()->value('name');
             })
             ->addColumn('action', function ($user) {
-            if ($user->roles()->value('name') != 'admin'){
+            if ($user->roles()->value('name') != 'Admin'){
                 return '<button type="button" id="view" data-id="' . $user->id . '"
                                                 class="btn btn-default btn-circle waves-effect waves-circle waves-float m-r-10" onclick="deleteRole(' . $user->id . ', \'' . $user->name . '\')">
                                             <i class="material-icons">delete</i></button>

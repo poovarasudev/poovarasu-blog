@@ -16,17 +16,22 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-            'name' => 'admin',
+            'name' => 'Admin',
             'guard_name' => 'web',
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'user',
+            'name' => 'Customer',
             'guard_name' => 'web',
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'accountant',
+            'name' => 'Accountant',
+            'guard_name' => 'web',
+        ]);
+
+        DB::table('roles')->insert([
+            'name' => 'Blogger',
             'guard_name' => 'web',
         ]);
 
@@ -35,6 +40,6 @@ class RolesTableSeeder extends Seeder
         $role->syncPermissions($permissions);
 
         $user = User::find(1);
-        $user->assignRole('admin');
+        $user->assignRole('Admin');
     }
 }

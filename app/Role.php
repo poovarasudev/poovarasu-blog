@@ -24,7 +24,7 @@ class Role extends \Spatie\Permission\Models\Role
      * Get the permissions for the role.
      */
     public function isAdmin(){
-        if ($this->name == 'admin') {
+        if ($this->name == 'Admin') {
             return true;
         } else {
             return false;

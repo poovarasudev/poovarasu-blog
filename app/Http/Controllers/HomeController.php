@@ -32,7 +32,7 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->hasAnyRole(Role::all())) {
-            if (auth()->user()->roles->first()->name == 'admin') {
+            if (auth()->user()->roles->first()->name == 'Admin') {
                 return redirect('/dashboard');
             } else {
                 return redirect('/post');
