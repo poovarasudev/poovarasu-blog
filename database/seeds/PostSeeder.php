@@ -1,5 +1,6 @@
 <?php
 
+use App\Image;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use Illuminate\Support\Str;
@@ -18,7 +19,7 @@ class PostSeeder extends Seeder
         for ($month = 1; $month <= 120; $month++) {
             $postCount = random_int(15, 75);
             for ($i = 0; $i < $postCount; $i++) {
-                $post1 = \App\Post::create([
+                $post = \App\Post::create([
                     'user_id' => random_int(1, 6),
                     'email' => $faker->email,
                     'title' => $faker->name,
@@ -29,8 +30,16 @@ class PostSeeder extends Seeder
                 $iteration = random_int(0, 4);
                 for ($j = 0; $j < $iteration; $j++) {
                     \App\PostTag::create([
-                        'post_id' => $post1->id,
+                        'post_id' => $post->id,
                         'tag_id' => random_int(1, 7),
+                    ]);
+                }
+
+                $iteration = random_int(0, 4);
+                for ($k = 1; $k <= $iteration; $k++) {
+                    Image::create([
+                        'post_id' => $post->id,
+                        'full_url' => 'https://loremflickr.com/640/480/paris?random=' . $k,
                     ]);
                 }
             }
@@ -52,7 +61,7 @@ class PostSeeder extends Seeder
             $postCount = random_int(3, 15);
             for ($i = 0; $i < $postCount; $i++) {
                 $faker = Factory::create();
-                $post1 = \App\Post::create([
+                $post = \App\Post::create([
                     'user_id' => random_int(1, 6),
                     'email' => $faker->email,
                     'title' => $faker->name,
@@ -63,8 +72,16 @@ class PostSeeder extends Seeder
                 $iteration = random_int(0, 4);
                 for ($j = 0; $j < $iteration; $j++) {
                     \App\PostTag::create([
-                        'post_id' => $post1->id,
+                        'post_id' => $post->id,
                         'tag_id' => random_int(1, 7),
+                    ]);
+                }
+
+                $iteration = random_int(0, 4);
+                for ($k = 1; $k <= $iteration; $k++) {
+                    Image::create([
+                        'post_id' => $post->id,
+                        'full_url' => 'https://loremflickr.com/640/480/paris?random=' . $k,
                     ]);
                 }
             }

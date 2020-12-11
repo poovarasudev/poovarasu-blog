@@ -41,5 +41,8 @@ class RolesTableSeeder extends Seeder
 
         $user = User::find(1);
         $user->assignRole('Admin');
+
+        $user = User::find(2);
+        $user->assignRole('Admin');
     }
 }

@@ -24,7 +24,7 @@ class UpdateBlogPost extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|alpha_num|min:5',
+            'title' => 'required|min:5',
             'description' => 'required|min:15',
 //            'image_name.*' => 'mimes:jpeg,jpg,png',
         ];

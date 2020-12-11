@@ -72,7 +72,7 @@ class PostsController extends Controller
         $this->syncTag($request, $post);
         $this->syncImage($request, $post);
         $this->forgetCache();
-        event(new PostCreate($post, auth()->user()->name));
+//        event(new PostCreate($post, auth()->user()->name));
         return redirect('/post/' . $post->id);
     }
 
@@ -111,7 +111,7 @@ class PostsController extends Controller
             $post->update(['title' => $request->get('title'), 'description' => $request->get('description')]);
             $this->syncTag($request, $post);
             $this->forgetCache();
-            event(new PostUpdate($post, auth()->user()->name));
+//            event(new PostUpdate($post, auth()->user()->name));
             return response()->json(['action' => 'success', 'message' => 'Post updated succesfully']);
         } catch (\Throwable $exception) {
             return view('errors.500')->with(['url' => route('home')]);
@@ -128,7 +128,7 @@ class PostsController extends Controller
     {
         try {
             Image::wherePostId($post->id)->delete();
-            event(new PostDelete($post, auth()->user()->name));
+//            event(new PostDelete($post, auth()->user()->name));
             $post->delete();
             $this->forgetCache();
             return response()->json(['action' => 'success', 'message' => 'Post deleted succesfully']);
@@ -194,12 +194,13 @@ class PostsController extends Controller
     public function syncImage($request, $post): void
     {
         if ($request->hasFile('image_name')) {
+            $i = 1;
             foreach ($request->image_name as $image_name) {
-                $originalfilename = $image_name->getClientOriginalName();
-                $image_name->storeAs('public/posts_images', $originalfilename);
+//                $originalfilename = $image_name->getClientOriginalName();
+//                $image_name->storeAs('public/posts_images', $originalfilename);
                 Image::create([
                     'post_id' => $post->id,
-                    'image_name' => $originalfilename,
+                    'full_url' => 'https://loremflickr.com/640/480/paris?random=' . $i,
                 ]);
             }
         }

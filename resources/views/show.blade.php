@@ -38,7 +38,7 @@
                             </div>
                             <!-- Basic Example -->
                             @php
-                                $images = $post->images->pluck('image_name');
+                                $images = $post->images->pluck('full_url');
                                 $tags = $post->tags->pluck('tag_name');
                             @endphp
                             <div class="body">
@@ -50,14 +50,14 @@
                                                  data-ride="carousel">
                                                 <!-- Wrapper for slides -->
                                                 <div class="carousel-inner" role="listbox">
-                                                    @for($iteration = 0;$iteration < count($images);$iteration++)
+                                                    @for($iteration = 0; $iteration < count($images); $iteration++)
                                                         @if($iteration == 0)
                                                             <div class="item active">
-                                                                <img src="{{ asset('storage/posts_images/'.$images[$iteration]) }}"/>
+                                                                <img src="{{ $images[$iteration] ?? '/asset/tmp.jpg'  }}"/>
                                                             </div>
                                                         @else
                                                             <div class="item">
-                                                                <img src="{{ asset('storage/posts_images/'.$images[$iteration]) }}"/>
+                                                                <img src="{{ $images[$iteration] ?? '/asset/tmp.jpg' }}"/>
                                                             </div>
                                                         @endif
                                                     @endfor

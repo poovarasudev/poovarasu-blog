@@ -19,6 +19,12 @@ class UserSeeder extends Seeder
         ]);
 
         \App\User::create([
+            'name' => 'Demo User',
+            'email' => 'demo@test.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        ]);
+
+        \App\User::create([
             'name' => 'Test 1',
             'email' => 'test1@gmail.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),

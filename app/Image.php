@@ -9,10 +9,12 @@ class Image extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'faker_images';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['image_name','post_id'];
+    protected $fillable = ['full_url','post_id'];
 }
