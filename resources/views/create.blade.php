@@ -49,6 +49,7 @@
                                 <div class="form-group image-upload">
                                     <input name="image_name[]" type="file" multiple class="form-control"/>
                                 </div>
+                                <span style="color: red">Image Upload is disabled in backend. Some default images will be loaded instead of the given image.<br></span>
                                 <button type="submit" class="btn btn-primary m-t-15 waves-effect">CREATE</button>
                             </form>
                         </div>

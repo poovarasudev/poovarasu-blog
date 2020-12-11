@@ -40,6 +40,12 @@
                                 <button class="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
                             </div>
                         </div>
+                        <div class="row m-t-5 p-l-15">
+                            <span style="color: red">
+                                Demo Mail : demo@test.com <br>
+                                Demo Password : password
+                            </span>
+                        </div>
                         <div class="row m-t-15 m-b--20">
                             <div class="col-xs-6">
                                 <a href="{{ route('register') }}">Register Now!</a>

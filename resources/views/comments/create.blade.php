@@ -2,7 +2,7 @@
 @can('create-comment')
     <div class="row">
         <div class="col-lg-1 align-right">
-            <img src="{{ asset('/asset/images/user.png') }}" width="60" height="60" alt="User">
+            <img src="{{ secure_asset('/asset/images/user.png') }}" width="60" height="60" alt="User">
         </div>
         <div class="col-lg-6">
             <div class="form-group">

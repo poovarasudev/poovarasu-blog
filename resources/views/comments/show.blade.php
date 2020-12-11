@@ -6,7 +6,7 @@
                 <div class="bs-example" data-example-id="media-alignment">
                     <div class="media">
                         <div class="media-left">
-                            <img src="{{ asset('/asset/images/user.png') }}" width="60" height="60" alt="User" class="mr-3">
+                            <img src="{{ secure_asset('/asset/images/user.png') }}" width="60" height="60" alt="User" class="mr-3">
                         </div>
                         <div class="media-body">
                             <p class="media-heading">{{ $comment->created_at->diffForHumans() }}</p>
