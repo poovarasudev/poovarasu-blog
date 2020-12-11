@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://blog.test'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -173,7 +174,17 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -225,6 +236,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
