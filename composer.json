@@ -21,7 +21,7 @@
         "stackify/monolog": "~1.0",
         "tymon/jwt-auth": "^1.0.0-rc.4",
         "yajra/laravel-datatables-oracle": "^9.4",
-        "fzaninotto/faker": "^1.4",
+        "fzaninotto/faker": "^1.4"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
