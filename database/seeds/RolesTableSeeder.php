@@ -18,21 +18,25 @@ class RolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'Admin',
             'guard_name' => 'web',
+            'description' => 'Admin Description'
         ]);
 
         DB::table('roles')->insert([
             'name' => 'Customer',
             'guard_name' => 'web',
+            'description' => 'Customer Description'
         ]);
 
         DB::table('roles')->insert([
             'name' => 'Accountant',
             'guard_name' => 'web',
+            'description' => 'Accountant Description'
         ]);
 
         DB::table('roles')->insert([
             'name' => 'Blogger',
             'guard_name' => 'web',
+            'description' => 'Blogger Description'
         ]);
 
         $permissions = Permission::all();
