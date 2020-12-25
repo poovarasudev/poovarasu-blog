@@ -16,7 +16,7 @@ class NotifyAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (isAppEnvProduction()) {
+        if (env('NOTIFY_ADMIN_WEBHOOK') && isAppEnvProduction()) {
             if (Cookie::has('notify')) {
                 notifyAdmin();
             } else {
