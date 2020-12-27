@@ -1,12 +1,12 @@
 <?php
 
-function notifyAdmin() {
+function notifyAdmin($message = 'A New User Detected !!!') {
     if (env('NOTIFY_ADMIN_WEBHOOK')) {
         $curl = curl_init(env('NOTIFY_ADMIN_WEBHOOK'));
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, ['payload' => json_encode([
-            'text' => 'A New User Detected !!!'
+            'text' => $message
         ])]);
         curl_exec($curl);
         curl_close($curl);

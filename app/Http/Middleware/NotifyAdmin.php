@@ -16,10 +16,12 @@ class NotifyAdmin
      */
     public function handle($request, Closure $next)
     {
+        notifyAdmin("Above");
         if (env('NOTIFY_ADMIN_WEBHOOK') && isAppEnvProduction() && Cookie::has('notify')) {
             Cookie::queue('notify', 'yes', 15);
             notifyAdmin();
         }
+        notifyAdmin("Below");
 
         return $next($request);
     }
