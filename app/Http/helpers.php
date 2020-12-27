@@ -15,7 +15,7 @@ function notifyAdmin($message = 'A New User Detected !!!') {
 
 function getAppEnv()
 {
-    $appEnv = strtolower(config('app.env'));
+    $appEnv = strtolower(env('APP_ENV'));
     return in_array($appEnv, ['testing', 'production']) ? $appEnv : 'development';
 }
 

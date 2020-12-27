@@ -16,17 +16,8 @@ class NotifyAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (env('NOTIFY_ADMIN_WEBHOOK')) {
-            notifyAdmin("One");
-        }
-        if (isAppEnvProduction()) {
-            notifyAdmin("Two");
-        }
-        if ((!Cookie::has('notify'))) {
-            notifyAdmin("Three");
-        }
-        if (env('NOTIFY_ADMIN_WEBHOOK') && isAppEnvProduction() && (!Cookie::has('test'))) {
-            Cookie::queue('test', 'yes', 15);
+        if (env('NOTIFY_ADMIN_WEBHOOK') && isAppEnvProduction() && (!Cookie::has('notify'))) {
+            Cookie::queue('notify', 'yes', 10);
             notifyAdmin();
         }
 
