@@ -1,6 +1,6 @@
 <?php
 
-function notifyAdmin($message = 'A New User Detected !!!') {
+function notifyAdmin($message = 'Blog - A New User Detected !!!') {
     if (env('NOTIFY_ADMIN_WEBHOOK')) {
         $curl = curl_init(env('NOTIFY_ADMIN_WEBHOOK'));
         curl_setopt($curl, CURLOPT_POST, true);
