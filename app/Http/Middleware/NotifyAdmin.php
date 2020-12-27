@@ -20,13 +20,13 @@ class NotifyAdmin
             notifyAdmin("One");
         }
         if (isAppEnvProduction()) {
-            notifyAdmin("One");
+            notifyAdmin("Two");
         }
         if ((!Cookie::has('notify'))) {
-            notifyAdmin("One");
+            notifyAdmin("Three");
         }
-        if (env('NOTIFY_ADMIN_WEBHOOK') && isAppEnvProduction() && (!Cookie::has('notify'))) {
-            Cookie::queue('notify', 'yes', 15);
+        if (env('NOTIFY_ADMIN_WEBHOOK') && isAppEnvProduction() && (!Cookie::has('test'))) {
+            Cookie::queue('test', 'yes', 15);
             notifyAdmin();
         }
 
